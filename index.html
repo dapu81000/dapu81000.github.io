@@ -8,10 +8,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta property="og:type" content="website">
 <meta property="og:title" content="Phan Diary">
-<meta property="og:url" content="https://dapu81000.github.io/index.html">
+<meta property="og:url" content="http://example.com/index.html">
 <meta property="og:site_name" content="Phan Diary">
 <meta property="og:locale" content="en_US">
-<meta property="article:author" content="Phan">
+<meta property="article:author" content="dapu81000">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="Phan Diary" type="application/atom+xml">
@@ -68,7 +68,7 @@
         <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
       </nav>
       <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://dapu81000.github.io"></form>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
       </div>
     </div>
   </div>
@@ -77,9 +77,9 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-LeetCode956 - Tallest Billboard" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-Tallest Billboard" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2023/06/25/LeetCode956%20-%20Tallest%20Billboard/" class="article-date">
+    <a href="/2023/06/25/Tallest%20Billboard/" class="article-date">
   <time class="dt-published" datetime="2023-06-24T16:33:35.000Z" itemprop="datePublished">2023-06-25</time>
 </a>
     
@@ -91,7 +91,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/06/25/LeetCode956%20-%20Tallest%20Billboard/">LeetCode956 - Tallest Billboard</a>
+      <a class="p-name article-title" href="/2023/06/25/Tallest%20Billboard/">LeetCode956 - Tallest Billboard</a>
     </h1>
   
 
@@ -110,7 +110,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dapu81000.github.io/2023/06/25/LeetCode956%20-%20Tallest%20Billboard/" data-id="clja9m0x50000l0n95icnbsej" data-title="LeetCode956 - Tallest Billboard" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/06/25/Tallest%20Billboard/" data-id="cljfr2wyr000831n9h9yid0qc" data-title="LeetCode956 - Tallest Billboard" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -163,10 +163,333 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dapu81000.github.io/2023/06/25/hello-world/" data-id="clja9m0xa0001l0n9402n56nb" data-title="Hello World" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/06/25/hello-world/" data-id="clja9m0xa0001l0n9402n56nb" data-title="Hello World" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-PoorPigs" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/08/11/PoorPigs/" class="article-date">
+  <time class="dt-published" datetime="2022-08-11T06:56:45.000Z" itemprop="datePublished">2022-08-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/08/11/PoorPigs/">LeetCode458 - Poor Pigs</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>##Description<br>有很多桶子，每桶都有水，然後其中一桶有毒，豬豬喝了會死<br>每次測驗每隻豬豬都可以選定喝任意桶水<br>測驗次數最多n次<br>問你最至少要幾隻豬豬才能測出哪桶水有毒</p>
+<p>##Solution1<br>這題最關鍵的點應該就是要換個角度思考<br>她問你至少要幾隻豬豬才測得出來<br>那我們先找固定次數以及固定隻數的豬豬，最多可以測幾桶水<br>首先假設最多可以測$n$次，然後有$m$隻豬豬，<br>然後$dp[n][m]$是最多可以測幾桶水<br>下面歸類一下$dp[n][m]$的各項轉移式</p>
+<p>測完一次後，</p>
+<p><strong>1.豬豬都沒死</strong><br>豬豬數一樣，然後少一次機會測<br>$&#x3D;&gt; dp[n][m] +&#x3D; dp[n-1][m]$</p>
+<p><strong>2.死一隻豬豬</strong><br>豬豬數少一，然後少一次機會測<br>注意到這裡要考慮到每隻豬不同，所以要乘上$\binom{m}{1}$<br>$&#x3D;&gt; dp[n][m] +&#x3D; \binom{m}{1} \cdot dp[n-1][m-1]$</p>
+<p><strong>3.死k隻豬豬</strong><br>同理，選哪k隻豬豬死<br>$&#x3D;&gt; dp[n][m] +&#x3D; \binom{m}{k} \cdot dp[n-1][m-k]$</p>
+<p>整理出轉移式之後，大概就可以把整個dp陣列求出來了<br>複雜度$O(n\cdot m^2)$<br>假設有k個桶子<br>就是找到最小的m使得$dp[n][m] \geq k$</p>
+<p>###Solution2<br>那如果當n,m越來越大，solution1就可能會超時<br>這個解法其實是建立在猜測的基礎上XD<br>觀察轉移式後，發現長得很像展開後的二項式，<br>所以這邊猜$dp[n][m] &#x3D; (n+1)^m$<br>證明的話就用數學歸納法證，不難證就不放過程了(?</p>
+<p>最後<br>假設有k個桶子，我們要找到最小的m<br>使得$k \leq (n+1)^m$<br>然後用log再移一下項，可以得到<br>${log(k) \over log(n+1)} \leq m$<br>然後ceiling一下，就找到我們要的$m$了<br>複雜度$O(1)$</p>
+<p>###Submit Code</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">poorPigs</span><span class="params">(<span class="type">int</span> buckets, <span class="type">int</span> minutesToDie, <span class="type">int</span> minutesToTest)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n = minutesToTest / minutesToDie;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">ceil</span>(<span class="built_in">log</span>(buckets)/<span class="built_in">log</span>(n+<span class="number">1</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">buckets &lt;= (n+1)^m</span></span><br><span class="line"><span class="comment">log(buckets) &lt;= mlog(n+1)</span></span><br><span class="line"><span class="comment">log(buckets) / log(n+1) &lt;= m</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<p>###Performance<br>Runtime: <strong>6</strong> ms, faster than <strong>10.91%</strong> of C++ online submissions for Poor Pigs.<br>Memory Usage: <strong>6</strong> MB, less than <strong>58.91%</strong> of C++ online submissions for Poor Pigs.</p>
+<p>###後記<br>這是8&#x2F;6的daily challenge<br>一開始真的沒啥想法 一直在想要怎麼分配豬豬去喝水&#x3D;&#x3D;<br>後來偷看了Discuss之後才發現要換個方向想&#x3D;&#x3D;<br>一開始覺得那個一般式很沒道理，後來稍微推導一下才懂，還好不難推XD<br>總之這題體感介於medium和hard啦，最關鍵大概是要換個角度想，<br>一般式的話應該可求可不求，要求的話就大概要發現他是二項式</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/08/11/PoorPigs/" data-id="cljfr2wyn000331n97oav4q93" data-title="LeetCode458 - Poor Pigs" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/dp/" rel="tag">dp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hard/" rel="tag">hard</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/math/" rel="tag">math</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-SubarrayWithElementsGreaterThanVaryingThreshold" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/08/11/SubarrayWithElementsGreaterThanVaryingThreshold/" class="article-date">
+  <time class="dt-published" datetime="2022-08-11T02:34:11.000Z" itemprop="datePublished">2022-08-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/08/11/SubarrayWithElementsGreaterThanVaryingThreshold/">LeetCode2334 - Subarray With Elements Greater Than Varying Threshold</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>##Description<br>給你一串數字和一個threshold<br>問你能不能從這串數字找出一段連續的數字<br>使得這段數字都大於等於threshold除以長度</p>
+<p>##Solution<br>其實蠻直觀的<br>對於每個數字<br>找到前一個和下一個比他小的數字的位置<br>這樣就可以讓這個數字在這段數字中最小<br>有點greedy的味道<br>這裡可以用到monotonic stack來找前一個最小和下一個最小<br>這邊先上一下找前一個最小的code</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(!st.<span class="built_in">empty</span>() &amp;&amp; nums[st.<span class="built_in">top</span>()] &gt;= nums[i]) st.<span class="built_in">pop</span>();</span><br><span class="line">prev[i] = st.<span class="built_in">empty</span>()?<span class="number">-1</span>:st.<span class="built_in">top</span>();</span><br><span class="line">st.<span class="built_in">push</span>(i);</span><br></pre></td></tr></table></figure>
+<p>大概長這樣<br>因為我要找前一個最小<br>所以比現在大的都沒用 因為後面要嘛選自己要嘛選到前面比自己還小的<br>這就是monotonic的原因<br>所以這邊可以達成$O(n)$找到前一個最小 下一個最小也是一樣<br>不過我一開始沒想出來 後來偷看Discuss才會&#x3D;&#x3D;</p>
+<p>然後為了方便計算長度 我找的是前一個最小的下一個數<br>即$[i-L,i+R]$這段連續數字,$nums[i]$是最小的數,然後讓這串數字盡量長，即讓$L$、$R$最大<br>###Submit Code</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">validSubarraySize</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> threshold)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n = nums.<span class="built_in">size</span>();</span><br><span class="line">        stack&lt;<span class="type">int</span>&gt; st;</span><br><span class="line">        <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">prev</span><span class="params">(n,<span class="number">-1</span>)</span>,<span class="title">nxt</span><span class="params">(n,<span class="number">-1</span>)</span></span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">            <span class="keyword">while</span>(!st.<span class="built_in">empty</span>() &amp;&amp; nums[st.<span class="built_in">top</span>()] &gt;= nums[i]) st.<span class="built_in">pop</span>();</span><br><span class="line">            <span class="keyword">if</span>(st.<span class="built_in">empty</span>()) prev[i] = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">else</span> prev[i] = st.<span class="built_in">top</span>() + <span class="number">1</span>;</span><br><span class="line">            st.<span class="built_in">push</span>(i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span>(!st.<span class="built_in">empty</span>()) st.<span class="built_in">pop</span>();</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=n<span class="number">-1</span>;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">            <span class="keyword">while</span>(!st.<span class="built_in">empty</span>() &amp;&amp; nums[st.<span class="built_in">top</span>()] &gt;= nums[i]) st.<span class="built_in">pop</span>();</span><br><span class="line">            <span class="keyword">if</span>(st.<span class="built_in">empty</span>()) nxt[i] = n<span class="number">-1</span>;</span><br><span class="line">            <span class="keyword">else</span> nxt[i] = st.<span class="built_in">top</span>() - <span class="number">1</span>;</span><br><span class="line">            st.<span class="built_in">push</span>(i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">            <span class="type">int</span> len = nxt[i] - prev[i] + <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span>(threshold / len &lt; nums[i]) <span class="keyword">return</span> len;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>###Performance<br>Runtime: <strong>427</strong> ms, faster than <strong>43.62%</strong> of C++ online submissions for Subarray With Elements Greater Than Varying Threshold.<br>Memory Usage: <strong>100.8</strong> MB, less than <strong>34.66%</strong> of C++ online submissions for Subarray With Elements Greater Than Varying Threshold.</p>
+<p>###後記<br>這題是某個biweekly challenge的題目<br>有一天很閒就virtual了一下<br>結果就卡這題<br>沒想到解法這麼直觀&#x3D;&#x3D;<br>硬要說的話，體感medium，hard是過分了點XD</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/08/11/SubarrayWithElementsGreaterThanVaryingThreshold/" data-id="cljfr2wyq000531n96hvm0kow" data-title="LeetCode2334 - Subarray With Elements Greater Than Varying Threshold" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/greedy/" rel="tag">greedy</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hard/" rel="tag">hard</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/monotonic-stack/" rel="tag">monotonic stack</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-LinkedListCycle" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/07/11/LinkedListCycle/" class="article-date">
+  <time class="dt-published" datetime="2022-07-11T13:22:49.000Z" itemprop="datePublished">2022-07-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/07/11/LinkedListCycle/">LeetCode141 - Linked List Cycle</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>##Description<br>給你一個linked list<br>然後問你裡面有沒有cycle</p>
+<p>##Solution1<br>一開始的想法是直接開一個map紀錄出現過的pointer<br>複雜度$O(nlogn)$</p>
+<p>###Submit Code</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">hasCycle</span><span class="params">(ListNode *head)</span> </span>&#123;</span><br><span class="line">        map&lt;ListNode*,<span class="type">bool</span>&gt; mp;</span><br><span class="line">        <span class="keyword">while</span>(head != <span class="literal">NULL</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(mp[head]) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            mp[head] = <span class="literal">true</span>; </span><br><span class="line">            head = head -&gt; next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>###Performance<br>Runtime: <strong>29</strong> ms, faster than <strong>11.33%</strong> of C++ online submissions for Linked List Cycle.<br>Memory Usage: <strong>11.2</strong> MB, less than <strong>6.98%</strong> of C++ online submissions for Linked List Cycle.</p>
+<p>表現看起來很廢，不過還是過了<br>看起來應該有更好的解法<br>於是偷看了Discuss(x</p>
+<p>##Solution2<br>很酷的解法<br>第一時間沒想到@@<br>不過很直觀<br>用兩個指標，這邊叫slow和fast<br>slow一次走一步，fast一次走兩步<br>如果有cycle，那他們一定會在一個時間點停在同一個點上，即slow&#x3D;fast<br>沒有的話就會碰到null，然後跳出while loop<br>複雜度$O(n)$</p>
+<p>###Submit Code</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">hasCycle</span><span class="params">(ListNode *head)</span> </span>&#123;</span><br><span class="line">        ListNode *slow, *fast;</span><br><span class="line">        slow = head, fast = head;</span><br><span class="line">        <span class="keyword">while</span>(slow &amp;&amp; fast &amp;&amp; fast-&gt;next)&#123;</span><br><span class="line">            slow = slow-&gt;next;</span><br><span class="line">            fast = fast-&gt;next-&gt;next;</span><br><span class="line">            <span class="keyword">if</span>(slow == fast) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>###Performance<br>Runtime: <strong>14</strong> ms, faster than <strong>65.80%</strong> of C++ online submissions for Linked List Cycle.<br>Memory Usage: <strong>8.1</strong> MB, less than <strong>57.18%</strong> of C++ online submissions for Linked List Cycle.</p>
+<p>###後記<br>原本看到easy覺得應該是ez了<br>不過丟出去發現performance有夠糟<br>又看到題目的hint寫說可以把memory弄到O(1)<br>沒啥想法就看了Discuss嗚嗚</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/07/11/LinkedListCycle/" data-id="cljfr2wyk000131n9dimp4f99" data-title="LeetCode141 - Linked List Cycle" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/data-structure/" rel="tag">data structure</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/easy/" rel="tag">easy</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linked-list/" rel="tag">linked list</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-PaintHouseIII" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/07/08/PaintHouseIII/" class="article-date">
+  <time class="dt-published" datetime="2022-07-08T05:56:06.000Z" itemprop="datePublished">2022-07-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/07/08/PaintHouseIII/">LeetCode1473 - Paint House III</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>##Description<br>大意是有一排房子，然後上漆要錢<br>定義一坨鄰居為連續的房子，然後漆同樣的顏色<br>問你有沒有辦法弄出$target$坨鄰居，然後花費要最小</p>
+<p>然後一排房子$m$個，總共$n$種顏色的漆<br>限制大概長這樣<br>$n{\leq}20,m{\leq}100,target{\leq}m$</p>
+<p>大概可以想到$O(nm^2)$的DP<br>空間也還夠用</p>
+<p>##Solution<br>定義一下$dp[i][j][k]$<br>$dp[i][j][k]$是在前$k$個房子中，第$k$個房子漆上顏色$j$，然後共有$i$坨鄰居的最小花費</p>
+<p>dp有兩種轉移<br>一種是從$i-1$坨，然後跟前一棟不同顏色轉移過來的<br>另一種是$i$坨，然後跟前一棟同一種顏色<br>轉移式大概長這樣</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dp[i][j][k] = <span class="built_in">min</span>(<span class="built_in">min</span>(dp[i<span class="number">-1</span>][l][k<span class="number">-1</span>] <span class="keyword">for</span> all l!=j), dp[i][j][k<span class="number">-1</span>]) + cost[k][j];</span><br></pre></td></tr></table></figure>
+<p>最後注意一下題目限制，例如已經漆過的就不能再換顏色<br>差不多就弄出來了</p>
+<p>###Submit Code</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">minCost</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; houses, vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; cost, <span class="type">int</span> m, <span class="type">int</span> n, <span class="type">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> dp[<span class="number">101</span>][<span class="number">21</span>][<span class="number">101</span>];</span><br><span class="line">        <span class="built_in">memset</span>(dp,<span class="number">0x3f</span>,<span class="keyword">sizeof</span> dp);</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;=n;i++) dp[<span class="number">0</span>][i][<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=target;i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">1</span>;j&lt;=n;j++)&#123;</span><br><span class="line">                <span class="keyword">for</span>(<span class="type">int</span> k=<span class="number">1</span>;k&lt;=m;k++)&#123;</span><br><span class="line">                    <span class="keyword">if</span>(houses[k<span class="number">-1</span>] &amp;&amp; houses[k<span class="number">-1</span>] != j)&#123;</span><br><span class="line">                        <span class="keyword">continue</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="type">int</span> mn = <span class="number">0x3f3f3f3f</span>;</span><br><span class="line">                    <span class="keyword">for</span>(<span class="type">int</span> l=<span class="number">1</span>;l&lt;=n;l++)&#123;</span><br><span class="line">                        <span class="keyword">if</span>(l==j) <span class="keyword">continue</span>;</span><br><span class="line">                        mn = <span class="built_in">min</span>(mn, dp[i<span class="number">-1</span>][l][k<span class="number">-1</span>]);</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">if</span>(houses[k<span class="number">-1</span>] == j)</span><br><span class="line">                        dp[i][j][k] = <span class="built_in">min</span>(mn, dp[i][j][k<span class="number">-1</span>]);</span><br><span class="line">                    <span class="keyword">else</span> </span><br><span class="line">                        dp[i][j][k] = <span class="built_in">min</span>(mn, dp[i][j][k<span class="number">-1</span>]) + cost[k<span class="number">-1</span>][j<span class="number">-1</span>];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span> ans = <span class="number">0x3f3f3f3f</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++) ans = <span class="built_in">min</span>(ans, dp[target][i][m]);</span><br><span class="line">        <span class="keyword">if</span>(ans == <span class="number">0x3f3f3f3f</span>) <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>###Performance<br>Runtime: <strong>100</strong> ms, faster than <strong>72.87%</strong> of C++ online submissions for Paint House III.<br>Memory Usage: <strong>10.8</strong> MB, less than <strong>77.13%</strong> of C++ online submissions for Paint House III.</p>
+<p>###後記<br>其實這題的轉移還不難想，不過被歸類到hard了，體感應該是medium啦<br>後來偷看了一下別人的，複雜度好像都一樣，好像沒有比較優的(?<br>有差的應該就是空間了，好像可以再壓，不過我懶的壓XD</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/07/08/PaintHouseIII/" data-id="cljfr2wyp000431n96cvu9c0g" data-title="LeetCode1473 - Paint House III" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/dp/" rel="tag">dp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hard/" rel="tag">hard</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-InterleavingString" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/07/07/InterleavingString/" class="article-date">
+  <time class="dt-published" datetime="2022-07-07T04:09:05.000Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/07/07/InterleavingString/">LeetCode97 - Interleaving String</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>給你三個字串$s1,s2,s3$，問你能不能把$s1$和$s2$分割並依序接成$s3$</p>
+<p>很直覺地又想到DP<br>複雜度 $O(s1*s2)$</p>
+<p>##Solution1</p>
+<p>$dp[i][j]$為$true$，則$s1$長度為$i$的前綴以及$s2$長度為$j$的前綴可以構出$s3$長度為$i+j$的前綴<br>反之則無法構造出<br>轉移式</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dp[i][j] = dp[i][j] | (dp[i][j<span class="number">-1</span>] &amp;&amp; s2[j] == s3[i+j]) | (dp[i<span class="number">-1</span>][j] &amp;&amp; s1[i] == s3[i+j])</span><br></pre></td></tr></table></figure>
+
+<p>###Submit Code</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">isInterleave</span><span class="params">(string s1, string s2, string s3)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(s1.<span class="built_in">size</span>() + s2.<span class="built_in">size</span>() != s3.<span class="built_in">size</span>()) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="type">bool</span> dp[<span class="number">101</span>][<span class="number">101</span>] = &#123;&#125;;</span><br><span class="line">        dp[<span class="number">0</span>][<span class="number">0</span>] = <span class="literal">true</span>;</span><br><span class="line">        <span class="type">int</span> sz1 = s1.<span class="built_in">size</span>(), sz2 = s2.<span class="built_in">size</span>(), sz3 = s3.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;=sz1;i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;=sz2;j++)&#123;</span><br><span class="line">                <span class="keyword">if</span>(!i &amp;&amp; !j) <span class="keyword">continue</span>;</span><br><span class="line">                <span class="keyword">if</span>(i &amp;&amp; s1[i<span class="number">-1</span>] == s3[i+j<span class="number">-1</span>])</span><br><span class="line">                    dp[i][j] |= dp[i<span class="number">-1</span>][j];</span><br><span class="line">                <span class="keyword">if</span>(j &amp;&amp; s2[j<span class="number">-1</span>] == s3[i+j<span class="number">-1</span>])</span><br><span class="line">                    dp[i][j] |= dp[i][j<span class="number">-1</span>];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[sz1][sz2];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>###Performance<br>Runtime: <strong>0</strong> ms, faster than <strong>100.00%</strong> of C++ online submissions for Interleaving String.<br>Memory Usage: <strong>6.3</strong> MB, less than <strong>89.89%</strong> of C++ online submissions for Interleaving String.</p>
+<p>##Solution2</p>
+<p>題敘後面叫你把空間壓到$O(s2.length)$<br>就是把Solution1的第一維壓掉<br>稍微解釋一下dp的概念<br>因為外層遍歷$i$，所以還沒更新前的$dp[j]$是$i-1$時的資料<br>有點難解釋，不過差不多就是這樣(?</p>
+<p>###Submit Code</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">isInterleave</span><span class="params">(string s1, string s2, string s3)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(s1.<span class="built_in">size</span>() + s2.<span class="built_in">size</span>() != s3.<span class="built_in">size</span>()) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="type">bool</span> dp[<span class="number">101</span>] = &#123;&#125;;</span><br><span class="line">        <span class="type">int</span> sz1 = s1.<span class="built_in">size</span>(), sz2 = s2.<span class="built_in">size</span>(), sz3 = s3.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;=sz1;i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;=sz2;j++)&#123;</span><br><span class="line">                <span class="keyword">if</span>(!i &amp;&amp; !j)&#123;</span><br><span class="line">                    dp[j] = <span class="literal">true</span>;</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="type">bool</span> r1 = <span class="literal">false</span>, r2 = <span class="literal">false</span>;</span><br><span class="line">                <span class="keyword">if</span>(j) r1 = dp[j<span class="number">-1</span>] &amp;&amp; (s2[j<span class="number">-1</span>] == s3[i+j<span class="number">-1</span>]);</span><br><span class="line">                <span class="keyword">if</span>(i) r2 = dp[j] &amp;&amp; (s1[i<span class="number">-1</span>] == s3[i+j<span class="number">-1</span>]);</span><br><span class="line">                dp[j] = r1 || r2;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[sz2];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>###Performance<br>Runtime: <strong>5</strong> ms, faster than <strong>65.30%</strong> of C++ online submissions for Interleaving String.<br>Memory Usage: <strong>6.2</strong> MB, less than <strong>89.89%</strong> of C++ online submissions for Interleaving String.</p>
+<p>測資算是小測資，所以基本上表現看不出啥差異</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/07/07/InterleavingString/" data-id="cljfr2wyc000031n9bufed46s" data-title="LeetCode97 - Interleaving String" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/dp/" rel="tag">dp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/medium/" rel="tag">medium</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-WiggleSubsequence" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/07/03/WiggleSubsequence/" class="article-date">
+  <time class="dt-published" datetime="2022-07-03T14:27:12.000Z" itemprop="datePublished">2022-07-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/07/03/WiggleSubsequence/">LeetCode376 - Wiggle Subsequence</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>很直觀的DP題<br>可以很容易想到$O(n^2)$的解法</p>
+<p>##Solution1</p>
+<p>$dp[i][0]$為前i個數之間選取第i個數的subsequence中最長的wiggle sequence長度 然後末兩位的差是負數<br>$dp[i][1]$為前i個數之間選取第i個數的subsequence中最長的wiggle sequence長度 然後末兩位的差是正數</p>
+<p>轉移式大概長這樣</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> all j&lt;i</span><br><span class="line">	<span class="keyword">if</span> nums[i] - nums[j] &lt; <span class="number">0</span></span><br><span class="line">		dp[i][<span class="number">0</span>] = max(dp[i][<span class="number">0</span>], dp[j][<span class="number">1</span>] + <span class="number">1</span>)</span><br><span class="line">	<span class="keyword">if</span> nums[i] - nums[j] &gt; <span class="number">0</span></span><br><span class="line">		dp[i][<span class="number">1</span>] = max(dp[i][<span class="number">1</span>], dp[j][<span class="number">0</span>] + <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+<p>###Submit code</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">wiggleMaxLength</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> dp[<span class="number">1234</span>][<span class="number">2</span>]=&#123;&#125;;</span><br><span class="line">        <span class="type">int</span> sz = nums.<span class="built_in">size</span>(), ans = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;sz;i++) dp[i][<span class="number">0</span>] = dp[i][<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;sz;i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;i;j++)&#123;</span><br><span class="line">                <span class="keyword">if</span>(nums[j]-nums[i]&lt;<span class="number">0</span>)</span><br><span class="line">                    dp[i][<span class="number">0</span>] = <span class="built_in">max</span>(dp[i][<span class="number">0</span>],dp[j][<span class="number">1</span>]+<span class="number">1</span>);</span><br><span class="line">                <span class="keyword">if</span>(nums[j]-nums[i]&gt;<span class="number">0</span>)</span><br><span class="line">                    dp[i][<span class="number">1</span>] = <span class="built_in">max</span>(dp[i][<span class="number">1</span>],dp[j][<span class="number">0</span>]+<span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            ans = <span class="built_in">max</span>(ans, <span class="built_in">max</span>(dp[i][<span class="number">0</span>],dp[i][<span class="number">1</span>]));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>###Performance<br>Runtime: <strong>11</strong> ms, faster than <strong>29.70%</strong> of C++ online submissions for Wiggle Subsequence.<br>Memory Usage: <strong>7</strong> MB, less than <strong>75.53%</strong> of C++ online submissions for Wiggle Subsequence.</p>
+<p>##Solution2</p>
+<p>後來發現，其實可以用greedy來解決<br>$down[i]$表示前i個數所產生的子序列中，最後兩位的差是負數的最長wiggle sequence的長度<br>$up[i]$表示前i個數所產生的子序列中，最後兩位的差是正數的最長wiggle sequence的長度<br>時間複雜度$O(n)$<br>然後轉移式</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> all i</span><br><span class="line">	<span class="keyword">if</span> num[i] &gt; num[i<span class="number">-1</span>]</span><br><span class="line">		up[i] = down[i<span class="number">-1</span>] + <span class="number">1</span></span><br><span class="line">		down[i] = down[i<span class="number">-1</span>]</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> num[i] &lt; num[i<span class="number">-1</span>]</span><br><span class="line">		down[i] = up[i<span class="number">-1</span>] + <span class="number">1</span></span><br><span class="line">		up[i] = up[i<span class="number">-1</span>]</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		down[i] = down[i<span class="number">-1</span>]</span><br><span class="line">		up[i] = up[i<span class="number">-1</span>] </span><br></pre></td></tr></table></figure>
+<p>然後又發現down,up兩個數列可以把他們壓成各一個數</p>
+<p>###Submit code</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">wiggleMaxLength</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> down = <span class="number">0</span>, up = <span class="number">0</span>, sz = nums.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;sz;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(nums[i]&gt;nums[i<span class="number">-1</span>]) up = down+<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(nums[i]&lt;nums[i<span class="number">-1</span>]) down = up+<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">max</span>(up,down)+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>###Performance<br>Runtime: <strong>0</strong> ms, faster than <strong>100.00%</strong> of C++ online submissions for Wiggle Subsequence.<br>Memory Usage: <strong>7.1</strong> MB, less than <strong>75.53%</strong> of C++ online submissions for Wiggle Subsequence.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/07/03/WiggleSubsequence/" data-id="cljfr2wys000a31n9bo95f54t" data-title="LeetCode376 - Wiggle Subsequence" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/dp/" rel="tag">dp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/greedy/" rel="tag">greedy</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/medium/" rel="tag">medium</a></li></ul>
+
     </footer>
   </div>
   
@@ -188,7 +511,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/dp/" rel="tag">dp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hard/" rel="tag">hard</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/data-structure/" rel="tag">data structure</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dp/" rel="tag">dp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/easy/" rel="tag">easy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/greedy/" rel="tag">greedy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hard/" rel="tag">hard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linked-list/" rel="tag">linked list</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/math/" rel="tag">math</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/medium/" rel="tag">medium</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/monotonic-stack/" rel="tag">monotonic stack</a></li></ul>
     </div>
   </div>
 
@@ -198,7 +521,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/dp/" style="font-size: 10px;">dp</a> <a href="/tags/hard/" style="font-size: 10px;">hard</a>
+      <a href="/tags/data-structure/" style="font-size: 10px;">data structure</a> <a href="/tags/dp/" style="font-size: 20px;">dp</a> <a href="/tags/easy/" style="font-size: 10px;">easy</a> <a href="/tags/greedy/" style="font-size: 13.33px;">greedy</a> <a href="/tags/hard/" style="font-size: 16.67px;">hard</a> <a href="/tags/linked-list/" style="font-size: 10px;">linked list</a> <a href="/tags/math/" style="font-size: 10px;">math</a> <a href="/tags/medium/" style="font-size: 13.33px;">medium</a> <a href="/tags/monotonic-stack/" style="font-size: 10px;">monotonic stack</a>
     </div>
   </div>
 
@@ -207,7 +530,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a></li></ul>
     </div>
   </div>
 
@@ -220,11 +543,23 @@
       <ul>
         
           <li>
-            <a href="/2023/06/25/LeetCode956%20-%20Tallest%20Billboard/">LeetCode956 - Tallest Billboard</a>
+            <a href="/2023/06/25/Tallest%20Billboard/">LeetCode956 - Tallest Billboard</a>
           </li>
         
           <li>
             <a href="/2023/06/25/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2022/08/11/PoorPigs/">LeetCode458 - Poor Pigs</a>
+          </li>
+        
+          <li>
+            <a href="/2022/08/11/SubarrayWithElementsGreaterThanVaryingThreshold/">LeetCode2334 - Subarray With Elements Greater Than Varying Threshold</a>
+          </li>
+        
+          <li>
+            <a href="/2022/07/11/LinkedListCycle/">LeetCode141 - Linked List Cycle</a>
           </li>
         
       </ul>
@@ -240,7 +575,7 @@
   <div class="outer">
     <div id="footer-info" class="inner">
       
-      &copy; 2023 Phan<br>
+      &copy; 2023 dapu81000<br>
       Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

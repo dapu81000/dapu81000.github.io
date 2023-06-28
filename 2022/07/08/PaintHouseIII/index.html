@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>LeetCode1473 - Paint House III | Phan Diary</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="##Description大意是有一排房子，然後上漆要錢定義一坨鄰居為連續的房子，然後漆同樣的顏色問你有沒有辦法弄出$target$坨鄰居，然後花費要最小 然後一排房子$m$個，總共$n$種顏色的漆限制大概長這樣$n{\leq}20,m{\leq}100,target{\leq}m$ 大概可以想到$O(nm^2)$的DP空間也還夠用 ##Solution定義一下$dp[i][j][k]$$dp[i">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LeetCode1473 - Paint House III">
+<meta property="og:url" content="http://example.com/2022/07/08/PaintHouseIII/index.html">
+<meta property="og:site_name" content="Phan Diary">
+<meta property="og:description" content="##Description大意是有一排房子，然後上漆要錢定義一坨鄰居為連續的房子，然後漆同樣的顏色問你有沒有辦法弄出$target$坨鄰居，然後花費要最小 然後一排房子$m$個，總共$n$種顏色的漆限制大概長這樣$n{\leq}20,m{\leq}100,target{\leq}m$ 大概可以想到$O(nm^2)$的DP空間也還夠用 ##Solution定義一下$dp[i][j][k]$$dp[i">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-07-08T05:56:06.000Z">
+<meta property="article:modified_time" content="2022-08-11T06:59:41.639Z">
+<meta property="article:author" content="dapu81000">
+<meta property="article:tag" content="dp">
+<meta property="article:tag" content="hard">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Phan Diary" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Phan Diary</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-PaintHouseIII" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/07/08/PaintHouseIII/" class="article-date">
+  <time class="dt-published" datetime="2022-07-08T05:56:06.000Z" itemprop="datePublished">2022-07-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      LeetCode1473 - Paint House III
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>##Description<br>大意是有一排房子，然後上漆要錢<br>定義一坨鄰居為連續的房子，然後漆同樣的顏色<br>問你有沒有辦法弄出$target$坨鄰居，然後花費要最小</p>
+<p>然後一排房子$m$個，總共$n$種顏色的漆<br>限制大概長這樣<br>$n{\leq}20,m{\leq}100,target{\leq}m$</p>
+<p>大概可以想到$O(nm^2)$的DP<br>空間也還夠用</p>
+<p>##Solution<br>定義一下$dp[i][j][k]$<br>$dp[i][j][k]$是在前$k$個房子中，第$k$個房子漆上顏色$j$，然後共有$i$坨鄰居的最小花費</p>
+<p>dp有兩種轉移<br>一種是從$i-1$坨，然後跟前一棟不同顏色轉移過來的<br>另一種是$i$坨，然後跟前一棟同一種顏色<br>轉移式大概長這樣</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dp[i][j][k] = <span class="built_in">min</span>(<span class="built_in">min</span>(dp[i<span class="number">-1</span>][l][k<span class="number">-1</span>] <span class="keyword">for</span> all l!=j), dp[i][j][k<span class="number">-1</span>]) + cost[k][j];</span><br></pre></td></tr></table></figure>
+<p>最後注意一下題目限制，例如已經漆過的就不能再換顏色<br>差不多就弄出來了</p>
+<p>###Submit Code</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">minCost</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; houses, vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; cost, <span class="type">int</span> m, <span class="type">int</span> n, <span class="type">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> dp[<span class="number">101</span>][<span class="number">21</span>][<span class="number">101</span>];</span><br><span class="line">        <span class="built_in">memset</span>(dp,<span class="number">0x3f</span>,<span class="keyword">sizeof</span> dp);</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;=n;i++) dp[<span class="number">0</span>][i][<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=target;i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">1</span>;j&lt;=n;j++)&#123;</span><br><span class="line">                <span class="keyword">for</span>(<span class="type">int</span> k=<span class="number">1</span>;k&lt;=m;k++)&#123;</span><br><span class="line">                    <span class="keyword">if</span>(houses[k<span class="number">-1</span>] &amp;&amp; houses[k<span class="number">-1</span>] != j)&#123;</span><br><span class="line">                        <span class="keyword">continue</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="type">int</span> mn = <span class="number">0x3f3f3f3f</span>;</span><br><span class="line">                    <span class="keyword">for</span>(<span class="type">int</span> l=<span class="number">1</span>;l&lt;=n;l++)&#123;</span><br><span class="line">                        <span class="keyword">if</span>(l==j) <span class="keyword">continue</span>;</span><br><span class="line">                        mn = <span class="built_in">min</span>(mn, dp[i<span class="number">-1</span>][l][k<span class="number">-1</span>]);</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">if</span>(houses[k<span class="number">-1</span>] == j)</span><br><span class="line">                        dp[i][j][k] = <span class="built_in">min</span>(mn, dp[i][j][k<span class="number">-1</span>]);</span><br><span class="line">                    <span class="keyword">else</span> </span><br><span class="line">                        dp[i][j][k] = <span class="built_in">min</span>(mn, dp[i][j][k<span class="number">-1</span>]) + cost[k<span class="number">-1</span>][j<span class="number">-1</span>];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span> ans = <span class="number">0x3f3f3f3f</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++) ans = <span class="built_in">min</span>(ans, dp[target][i][m]);</span><br><span class="line">        <span class="keyword">if</span>(ans == <span class="number">0x3f3f3f3f</span>) <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>###Performance<br>Runtime: <strong>100</strong> ms, faster than <strong>72.87%</strong> of C++ online submissions for Paint House III.<br>Memory Usage: <strong>10.8</strong> MB, less than <strong>77.13%</strong> of C++ online submissions for Paint House III.</p>
+<p>###後記<br>其實這題的轉移還不難想，不過被歸類到hard了，體感應該是medium啦<br>後來偷看了一下別人的，複雜度好像都一樣，好像沒有比較優的(?<br>有差的應該就是空間了，好像可以再壓，不過我懶的壓XD</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/07/08/PaintHouseIII/" data-id="cljfr2wyp000431n96cvu9c0g" data-title="LeetCode1473 - Paint House III" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/dp/" rel="tag">dp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hard/" rel="tag">hard</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/11/LinkedListCycle/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          LeetCode141 - Linked List Cycle
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/InterleavingString/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">LeetCode97 - Interleaving String</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/data-structure/" rel="tag">data structure</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dp/" rel="tag">dp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/easy/" rel="tag">easy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/greedy/" rel="tag">greedy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hard/" rel="tag">hard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linked-list/" rel="tag">linked list</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/math/" rel="tag">math</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/medium/" rel="tag">medium</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/monotonic-stack/" rel="tag">monotonic stack</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/data-structure/" style="font-size: 10px;">data structure</a> <a href="/tags/dp/" style="font-size: 20px;">dp</a> <a href="/tags/easy/" style="font-size: 10px;">easy</a> <a href="/tags/greedy/" style="font-size: 13.33px;">greedy</a> <a href="/tags/hard/" style="font-size: 16.67px;">hard</a> <a href="/tags/linked-list/" style="font-size: 10px;">linked list</a> <a href="/tags/math/" style="font-size: 10px;">math</a> <a href="/tags/medium/" style="font-size: 13.33px;">medium</a> <a href="/tags/monotonic-stack/" style="font-size: 10px;">monotonic stack</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/06/25/Tallest%20Billboard/">LeetCode956 - Tallest Billboard</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/25/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2022/08/11/PoorPigs/">LeetCode458 - Poor Pigs</a>
+          </li>
+        
+          <li>
+            <a href="/2022/08/11/SubarrayWithElementsGreaterThanVaryingThreshold/">LeetCode2334 - Subarray With Elements Greater Than Varying Threshold</a>
+          </li>
+        
+          <li>
+            <a href="/2022/07/11/LinkedListCycle/">LeetCode141 - Linked List Cycle</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 dapu81000<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
