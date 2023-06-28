@@ -6,15 +6,15 @@
   
   <title>LeetCode956 - Tallest Billboard | Phan Diary</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="Description給你一串數字，選出任意兩堆，這兩堆的數字和相同，問你符合條件的數字和最大是多少 Solution假設選好兩堆數字我們要記錄的是這兩堆的總和差以及總和最大那堆的值定義為在兩堆的總和差為的狀況下總和最大那堆的值然後要去maximize 遞迴的概念 大概可以這樣想對於當前狀況，把新的數字丟到大的那堆，或是小的那堆根據兩種狀況去做更新，然後記得不要動到這一輪更新的東西大概長這樣 12">
+  <meta name="description" content="Description給你一串數字，選出任意兩堆，這兩堆的數字和相同，問你符合條件的數字和最大是多少 Solution假設選好兩堆數字我們要記錄的是這兩堆的總和差以及總和最大那堆的值定義$dp[diff]$為在兩堆的總和差為$diff$的狀況下總和最大那堆的值然後要去maximize $dp[diff]$遞迴的概念 大概可以這樣想對於當前狀況，把新的數字丟到大的那堆，或是小的那堆根據兩種狀況去做更">
 <meta property="og:type" content="article">
 <meta property="og:title" content="LeetCode956 - Tallest Billboard">
 <meta property="og:url" content="http://example.com/2023/06/25/Tallest%20Billboard/index.html">
 <meta property="og:site_name" content="Phan Diary">
-<meta property="og:description" content="Description給你一串數字，選出任意兩堆，這兩堆的數字和相同，問你符合條件的數字和最大是多少 Solution假設選好兩堆數字我們要記錄的是這兩堆的總和差以及總和最大那堆的值定義為在兩堆的總和差為的狀況下總和最大那堆的值然後要去maximize 遞迴的概念 大概可以這樣想對於當前狀況，把新的數字丟到大的那堆，或是小的那堆根據兩種狀況去做更新，然後記得不要動到這一輪更新的東西大概長這樣 12">
+<meta property="og:description" content="Description給你一串數字，選出任意兩堆，這兩堆的數字和相同，問你符合條件的數字和最大是多少 Solution假設選好兩堆數字我們要記錄的是這兩堆的總和差以及總和最大那堆的值定義$dp[diff]$為在兩堆的總和差為$diff$的狀況下總和最大那堆的值然後要去maximize $dp[diff]$遞迴的概念 大概可以這樣想對於當前狀況，把新的數字丟到大的那堆，或是小的那堆根據兩種狀況去做更">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-06-24T16:33:35.000Z">
-<meta property="article:modified_time" content="2023-06-28T13:24:06.300Z">
+<meta property="article:modified_time" content="2023-06-28T13:57:27.881Z">
 <meta property="article:author" content="dapu81000">
 <meta property="article:tag" content="dp">
 <meta property="article:tag" content="hard">
@@ -39,11 +39,7 @@
 
   
   
-<!-- hexo injector head_end start -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
-<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 <body>
   <div id="container">
@@ -104,17 +100,14 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <h2 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h2><p>給你一串數字，選出任意兩堆，這兩堆的數字和相同，問你符合條件的數字和最大是多少</p>
-<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>假設選好兩堆數字<br>我們要記錄的是這兩堆的總和差以及總和最大那堆的值<br>定義<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.566ex;" xmlns="http://www.w3.org/2000/svg" width="8.018ex" height="2.262ex" role="img" focusable="false" viewBox="0 -750 3544 1000" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><path id="MJX-1-TEX-I-1D451" d="M366 683Q367 683 438 688T511 694Q523 694 523 686Q523 679 450 384T375 83T374 68Q374 26 402 26Q411 27 422 35Q443 55 463 131Q469 151 473 152Q475 153 483 153H487H491Q506 153 506 145Q506 140 503 129Q490 79 473 48T445 8T417 -8Q409 -10 393 -10Q359 -10 336 5T306 36L300 51Q299 52 296 50Q294 48 292 46Q233 -10 172 -10Q117 -10 75 30T33 157Q33 205 53 255T101 341Q148 398 195 420T280 442Q336 442 364 400Q369 394 369 396Q370 400 396 505T424 616Q424 629 417 632T378 637H357Q351 643 351 645T353 664Q358 683 366 683ZM352 326Q329 405 277 405Q242 405 210 374T160 293Q131 214 119 129Q119 126 119 118T118 106Q118 61 136 44T179 26Q233 26 290 98L298 109L352 326Z"></path><path id="MJX-1-TEX-I-1D45D" d="M23 287Q24 290 25 295T30 317T40 348T55 381T75 411T101 433T134 442Q209 442 230 378L240 387Q302 442 358 442Q423 442 460 395T497 281Q497 173 421 82T249 -10Q227 -10 210 -4Q199 1 187 11T168 28L161 36Q160 35 139 -51T118 -138Q118 -144 126 -145T163 -148H188Q194 -155 194 -157T191 -175Q188 -187 185 -190T172 -194Q170 -194 161 -194T127 -193T65 -192Q-5 -192 -24 -194H-32Q-39 -187 -39 -183Q-37 -156 -26 -148H-6Q28 -147 33 -136Q36 -130 94 103T155 350Q156 355 156 364Q156 405 131 405Q109 405 94 377T71 316T59 280Q57 278 43 278H29Q23 284 23 287ZM178 102Q200 26 252 26Q282 26 310 49T356 107Q374 141 392 215T411 325V331Q411 405 350 405Q339 405 328 402T306 393T286 380T269 365T254 350T243 336T235 326L232 322Q232 321 229 308T218 264T204 212Q178 106 178 102Z"></path><path id="MJX-1-TEX-N-5B" d="M118 -250V750H255V710H158V-210H255V-250H118Z"></path><path id="MJX-1-TEX-I-1D456" d="M184 600Q184 624 203 642T247 661Q265 661 277 649T290 619Q290 596 270 577T226 557Q211 557 198 567T184 600ZM21 287Q21 295 30 318T54 369T98 420T158 442Q197 442 223 419T250 357Q250 340 236 301T196 196T154 83Q149 61 149 51Q149 26 166 26Q175 26 185 29T208 43T235 78T260 137Q263 149 265 151T282 153Q302 153 302 143Q302 135 293 112T268 61T223 11T161 -11Q129 -11 102 10T74 74Q74 91 79 106T122 220Q160 321 166 341T173 380Q173 404 156 404H154Q124 404 99 371T61 287Q60 286 59 284T58 281T56 279T53 278T49 278T41 278H27Q21 284 21 287Z"></path><path id="MJX-1-TEX-I-1D453" d="M118 -162Q120 -162 124 -164T135 -167T147 -168Q160 -168 171 -155T187 -126Q197 -99 221 27T267 267T289 382V385H242Q195 385 192 387Q188 390 188 397L195 425Q197 430 203 430T250 431Q298 431 298 432Q298 434 307 482T319 540Q356 705 465 705Q502 703 526 683T550 630Q550 594 529 578T487 561Q443 561 443 603Q443 622 454 636T478 657L487 662Q471 668 457 668Q445 668 434 658T419 630Q412 601 403 552T387 469T380 433Q380 431 435 431Q480 431 487 430T498 424Q499 420 496 407T491 391Q489 386 482 386T428 385H372L349 263Q301 15 282 -47Q255 -132 212 -173Q175 -205 139 -205Q107 -205 81 -186T55 -132Q55 -95 76 -78T118 -61Q162 -61 162 -103Q162 -122 151 -136T127 -157L118 -162Z"></path><path id="MJX-1-TEX-N-5D" d="M22 710V750H159V-250H22V-210H119V710H22Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mi"><use data-c="1D451" xlink:href="#MJX-1-TEX-I-1D451"></use></g><g data-mml-node="mi" transform="translate(520,0)"><use data-c="1D45D" xlink:href="#MJX-1-TEX-I-1D45D"></use></g><g data-mml-node="mo" transform="translate(1023,0)"><use data-c="5B" xlink:href="#MJX-1-TEX-N-5B"></use></g><g data-mml-node="mi" transform="translate(1301,0)"><use data-c="1D451" xlink:href="#MJX-1-TEX-I-1D451"></use></g><g data-mml-node="mi" transform="translate(1821,0)"><use data-c="1D456" xlink:href="#MJX-1-TEX-I-1D456"></use></g><g data-mml-node="mi" transform="translate(2166,0)"><use data-c="1D453" xlink:href="#MJX-1-TEX-I-1D453"></use></g><g data-mml-node="mi" transform="translate(2716,0)"><use data-c="1D453" xlink:href="#MJX-1-TEX-I-1D453"></use></g><g data-mml-node="mo" transform="translate(3266,0)"><use data-c="5D" xlink:href="#MJX-1-TEX-N-5D"></use></g></g></g></svg></mjx-container>為在兩堆的總和差為<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.464ex;" xmlns="http://www.w3.org/2000/svg" width="4.446ex" height="2.059ex" role="img" focusable="false" viewBox="0 -705 1965 910" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><path id="MJX-1-TEX-I-1D451" d="M366 683Q367 683 438 688T511 694Q523 694 523 686Q523 679 450 384T375 83T374 68Q374 26 402 26Q411 27 422 35Q443 55 463 131Q469 151 473 152Q475 153 483 153H487H491Q506 153 506 145Q506 140 503 129Q490 79 473 48T445 8T417 -8Q409 -10 393 -10Q359 -10 336 5T306 36L300 51Q299 52 296 50Q294 48 292 46Q233 -10 172 -10Q117 -10 75 30T33 157Q33 205 53 255T101 341Q148 398 195 420T280 442Q336 442 364 400Q369 394 369 396Q370 400 396 505T424 616Q424 629 417 632T378 637H357Q351 643 351 645T353 664Q358 683 366 683ZM352 326Q329 405 277 405Q242 405 210 374T160 293Q131 214 119 129Q119 126 119 118T118 106Q118 61 136 44T179 26Q233 26 290 98L298 109L352 326Z"></path><path id="MJX-1-TEX-I-1D456" d="M184 600Q184 624 203 642T247 661Q265 661 277 649T290 619Q290 596 270 577T226 557Q211 557 198 567T184 600ZM21 287Q21 295 30 318T54 369T98 420T158 442Q197 442 223 419T250 357Q250 340 236 301T196 196T154 83Q149 61 149 51Q149 26 166 26Q175 26 185 29T208 43T235 78T260 137Q263 149 265 151T282 153Q302 153 302 143Q302 135 293 112T268 61T223 11T161 -11Q129 -11 102 10T74 74Q74 91 79 106T122 220Q160 321 166 341T173 380Q173 404 156 404H154Q124 404 99 371T61 287Q60 286 59 284T58 281T56 279T53 278T49 278T41 278H27Q21 284 21 287Z"></path><path id="MJX-1-TEX-I-1D453" d="M118 -162Q120 -162 124 -164T135 -167T147 -168Q160 -168 171 -155T187 -126Q197 -99 221 27T267 267T289 382V385H242Q195 385 192 387Q188 390 188 397L195 425Q197 430 203 430T250 431Q298 431 298 432Q298 434 307 482T319 540Q356 705 465 705Q502 703 526 683T550 630Q550 594 529 578T487 561Q443 561 443 603Q443 622 454 636T478 657L487 662Q471 668 457 668Q445 668 434 658T419 630Q412 601 403 552T387 469T380 433Q380 431 435 431Q480 431 487 430T498 424Q499 420 496 407T491 391Q489 386 482 386T428 385H372L349 263Q301 15 282 -47Q255 -132 212 -173Q175 -205 139 -205Q107 -205 81 -186T55 -132Q55 -95 76 -78T118 -61Q162 -61 162 -103Q162 -122 151 -136T127 -157L118 -162Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mi"><use data-c="1D451" xlink:href="#MJX-1-TEX-I-1D451"></use></g><g data-mml-node="mi" transform="translate(520,0)"><use data-c="1D456" xlink:href="#MJX-1-TEX-I-1D456"></use></g><g data-mml-node="mi" transform="translate(865,0)"><use data-c="1D453" xlink:href="#MJX-1-TEX-I-1D453"></use></g><g data-mml-node="mi" transform="translate(1415,0)"><use data-c="1D453" xlink:href="#MJX-1-TEX-I-1D453"></use></g></g></g></svg></mjx-container>的狀況下總和最大那堆的值<br>然後要去maximize <mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.566ex;" xmlns="http://www.w3.org/2000/svg" width="8.018ex" height="2.262ex" role="img" focusable="false" viewBox="0 -750 3544 1000" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><path id="MJX-1-TEX-I-1D451" d="M366 683Q367 683 438 688T511 694Q523 694 523 686Q523 679 450 384T375 83T374 68Q374 26 402 26Q411 27 422 35Q443 55 463 131Q469 151 473 152Q475 153 483 153H487H491Q506 153 506 145Q506 140 503 129Q490 79 473 48T445 8T417 -8Q409 -10 393 -10Q359 -10 336 5T306 36L300 51Q299 52 296 50Q294 48 292 46Q233 -10 172 -10Q117 -10 75 30T33 157Q33 205 53 255T101 341Q148 398 195 420T280 442Q336 442 364 400Q369 394 369 396Q370 400 396 505T424 616Q424 629 417 632T378 637H357Q351 643 351 645T353 664Q358 683 366 683ZM352 326Q329 405 277 405Q242 405 210 374T160 293Q131 214 119 129Q119 126 119 118T118 106Q118 61 136 44T179 26Q233 26 290 98L298 109L352 326Z"></path><path id="MJX-1-TEX-I-1D45D" d="M23 287Q24 290 25 295T30 317T40 348T55 381T75 411T101 433T134 442Q209 442 230 378L240 387Q302 442 358 442Q423 442 460 395T497 281Q497 173 421 82T249 -10Q227 -10 210 -4Q199 1 187 11T168 28L161 36Q160 35 139 -51T118 -138Q118 -144 126 -145T163 -148H188Q194 -155 194 -157T191 -175Q188 -187 185 -190T172 -194Q170 -194 161 -194T127 -193T65 -192Q-5 -192 -24 -194H-32Q-39 -187 -39 -183Q-37 -156 -26 -148H-6Q28 -147 33 -136Q36 -130 94 103T155 350Q156 355 156 364Q156 405 131 405Q109 405 94 377T71 316T59 280Q57 278 43 278H29Q23 284 23 287ZM178 102Q200 26 252 26Q282 26 310 49T356 107Q374 141 392 215T411 325V331Q411 405 350 405Q339 405 328 402T306 393T286 380T269 365T254 350T243 336T235 326L232 322Q232 321 229 308T218 264T204 212Q178 106 178 102Z"></path><path id="MJX-1-TEX-N-5B" d="M118 -250V750H255V710H158V-210H255V-250H118Z"></path><path id="MJX-1-TEX-I-1D456" d="M184 600Q184 624 203 642T247 661Q265 661 277 649T290 619Q290 596 270 577T226 557Q211 557 198 567T184 600ZM21 287Q21 295 30 318T54 369T98 420T158 442Q197 442 223 419T250 357Q250 340 236 301T196 196T154 83Q149 61 149 51Q149 26 166 26Q175 26 185 29T208 43T235 78T260 137Q263 149 265 151T282 153Q302 153 302 143Q302 135 293 112T268 61T223 11T161 -11Q129 -11 102 10T74 74Q74 91 79 106T122 220Q160 321 166 341T173 380Q173 404 156 404H154Q124 404 99 371T61 287Q60 286 59 284T58 281T56 279T53 278T49 278T41 278H27Q21 284 21 287Z"></path><path id="MJX-1-TEX-I-1D453" d="M118 -162Q120 -162 124 -164T135 -167T147 -168Q160 -168 171 -155T187 -126Q197 -99 221 27T267 267T289 382V385H242Q195 385 192 387Q188 390 188 397L195 425Q197 430 203 430T250 431Q298 431 298 432Q298 434 307 482T319 540Q356 705 465 705Q502 703 526 683T550 630Q550 594 529 578T487 561Q443 561 443 603Q443 622 454 636T478 657L487 662Q471 668 457 668Q445 668 434 658T419 630Q412 601 403 552T387 469T380 433Q380 431 435 431Q480 431 487 430T498 424Q499 420 496 407T491 391Q489 386 482 386T428 385H372L349 263Q301 15 282 -47Q255 -132 212 -173Q175 -205 139 -205Q107 -205 81 -186T55 -132Q55 -95 76 -78T118 -61Q162 -61 162 -103Q162 -122 151 -136T127 -157L118 -162Z"></path><path id="MJX-1-TEX-N-5D" d="M22 710V750H159V-250H22V-210H119V710H22Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mi"><use data-c="1D451" xlink:href="#MJX-1-TEX-I-1D451"></use></g><g data-mml-node="mi" transform="translate(520,0)"><use data-c="1D45D" xlink:href="#MJX-1-TEX-I-1D45D"></use></g><g data-mml-node="mo" transform="translate(1023,0)"><use data-c="5B" xlink:href="#MJX-1-TEX-N-5B"></use></g><g data-mml-node="mi" transform="translate(1301,0)"><use data-c="1D451" xlink:href="#MJX-1-TEX-I-1D451"></use></g><g data-mml-node="mi" transform="translate(1821,0)"><use data-c="1D456" xlink:href="#MJX-1-TEX-I-1D456"></use></g><g data-mml-node="mi" transform="translate(2166,0)"><use data-c="1D453" xlink:href="#MJX-1-TEX-I-1D453"></use></g><g data-mml-node="mi" transform="translate(2716,0)"><use data-c="1D453" xlink:href="#MJX-1-TEX-I-1D453"></use></g><g data-mml-node="mo" transform="translate(3266,0)"><use data-c="5D" xlink:href="#MJX-1-TEX-N-5D"></use></g></g></g></svg></mjx-container><br>遞迴的概念 大概可以這樣想<br>對於當前狀況，把新的數字丟到大的那堆，或是小的那堆<br>根據兩種狀況去做更新，然後記得不要動到這一輪更新的東西<br>大概長這樣</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 把新的數字丟到總和大的那堆</span></span><br><span class="line">dp[diff+rods[i]] = <span class="built_in">max</span>(dp[diff+rods[i]], dp[diff] + rods[i]);</span><br><span class="line"><span class="comment">// 把新的數字丟到總和小的那堆</span></span><br><span class="line">dp[<span class="built_in">abs</span>(diff-rods[i])] = <span class="built_in">max</span>(dp[<span class="built_in">abs</span>(diff-rods[i])], <span class="built_in">max</span>(dp[diff], dp[diff]-diff+rods[i]));</span><br></pre></td></tr></table></figure>
-
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>假設選好兩堆數字<br>我們要記錄的是這兩堆的總和差以及總和最大那堆的值<br>定義$dp[diff]$為在兩堆的總和差為$diff$的狀況下總和最大那堆的值<br>然後要去maximize $dp[diff]$<br>遞迴的概念 大概可以這樣想<br>對於當前狀況，把新的數字丟到大的那堆，或是小的那堆<br>根據兩種狀況去做更新，然後記得不要動到這一輪更新的東西<br>大概長這樣<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 把新的數字丟到總和大的那堆</span></span><br><span class="line">dp[diff+rods[i]] = <span class="built_in">max</span>(dp[diff+rods[i]], dp[diff] + rods[i]);</span><br><span class="line"><span class="comment">// 把新的數字丟到總和小的那堆</span></span><br><span class="line">dp[<span class="built_in">abs</span>(diff-rods[i])] = <span class="built_in">max</span>(dp[<span class="built_in">abs</span>(diff-rods[i])], <span class="built_in">max</span>(dp[diff], dp[diff]-diff+rods[i]));</span><br></pre></td></tr></table></figure></p>
 <h2 id="Submit-Code"><a href="#Submit-Code" class="headerlink" title="Submit Code"></a>Submit Code</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="type">int</span> dp[<span class="number">2</span>][<span class="number">5555</span>] = &#123;&#125;;</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">tallestBillboard</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; rods)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n = rods.<span class="built_in">size</span>(), cur = <span class="number">0</span>, tot = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">            <span class="type">int</span> prev = cur^<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;=tot+rods[i];j++)</span><br><span class="line">                dp[cur][j] = dp[prev][j];</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;=tot;j++)&#123;</span><br><span class="line">                <span class="keyword">if</span>(j &amp;&amp; !dp[prev][j]) <span class="keyword">continue</span>;</span><br><span class="line">                dp[cur][j+rods[i]] = <span class="built_in">max</span>(dp[cur][j+rods[i]],dp[prev][j] + rods[i]);</span><br><span class="line">                <span class="type">int</span> diff = <span class="built_in">abs</span>(rods[i] - j);</span><br><span class="line">                dp[cur][diff] = <span class="built_in">max</span>(dp[cur][diff],<span class="built_in">max</span>(dp[prev][j],dp[prev][j] - j + rods[i]));</span><br><span class="line">            &#125;</span><br><span class="line">            cur = cur^<span class="number">1</span>;</span><br><span class="line">            tot += rods[i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[cur^<span class="number">1</span>][<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
 <h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>隔了快一年重啟了我的刷題之旅(其實之前好像也沒怎麼刷XD)<br>這題的dp看了editorial才會的XD 真的不好想(對我來說)<br>一開始覺得很不直覺，後來想一想就覺得有道理(?</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/06/25/Tallest%20Billboard/" data-id="cljfr2wyr000831n9h9yid0qc" data-title="LeetCode956 - Tallest Billboard" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/06/25/Tallest%20Billboard/" data-id="cljfry7z40008qan9d8wjbi3w" data-title="LeetCode956 - Tallest Billboard" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -127,9 +120,9 @@
 <nav id="article-nav">
   
   
-    <a href="/2023/06/25/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2022/08/11/PoorPigs/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Hello World</div>
+      <div class="article-nav-title">LeetCode458 - Poor Pigs</div>
     </a>
   
 </nav>
@@ -185,10 +178,6 @@
           </li>
         
           <li>
-            <a href="/2023/06/25/hello-world/">Hello World</a>
-          </li>
-        
-          <li>
             <a href="/2022/08/11/PoorPigs/">LeetCode458 - Poor Pigs</a>
           </li>
         
@@ -198,6 +187,10 @@
         
           <li>
             <a href="/2022/07/11/LinkedListCycle/">LeetCode141 - Linked List Cycle</a>
+          </li>
+        
+          <li>
+            <a href="/2022/07/08/PaintHouseIII/">LeetCode1473 - Paint House III</a>
           </li>
         
       </ul>
@@ -247,5 +240,21 @@
 
 
   </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </body>
 </html>

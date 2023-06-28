@@ -6,12 +6,12 @@
   
   <title>LeetCode376 - Wiggle Subsequence | Phan Diary</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="很直觀的DP題可以很容易想到$O(n^2)$的解法 ##Solution1 $dp[i][0]$為前i個數之間選取第i個數的subsequence中最長的wiggle sequence長度 然後末兩位的差是負數$dp[i][1]$為前i個數之間選取第i個數的subsequence中最長的wiggle sequence長度 然後末兩位的差是正數 轉移式大概長這樣 12345for all j&lt;">
+  <meta name="description" content="很直觀的DP題可以很容易想到$O(n^2)$的解法 Solution1$dp[i][0]$為前i個數之間選取第i個數的subsequence中最長的wiggle sequence長度 然後末兩位的差是負數$dp[i][1]$為前i個數之間選取第i個數的subsequence中最長的wiggle sequence長度 然後末兩位的差是正數 轉移式大概長這樣12345for all j&lt;i	if">
 <meta property="og:type" content="article">
 <meta property="og:title" content="LeetCode376 - Wiggle Subsequence">
 <meta property="og:url" content="http://example.com/2022/07/03/WiggleSubsequence/index.html">
 <meta property="og:site_name" content="Phan Diary">
-<meta property="og:description" content="很直觀的DP題可以很容易想到$O(n^2)$的解法 ##Solution1 $dp[i][0]$為前i個數之間選取第i個數的subsequence中最長的wiggle sequence長度 然後末兩位的差是負數$dp[i][1]$為前i個數之間選取第i個數的subsequence中最長的wiggle sequence長度 然後末兩位的差是正數 轉移式大概長這樣 12345for all j&lt;">
+<meta property="og:description" content="很直觀的DP題可以很容易想到$O(n^2)$的解法 Solution1$dp[i][0]$為前i個數之間選取第i個數的subsequence中最長的wiggle sequence長度 然後末兩位的差是負數$dp[i][1]$為前i個數之間選取第i個數的subsequence中最長的wiggle sequence長度 然後末兩位的差是正數 轉移式大概長這樣12345for all j&lt;i	if">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-07-03T14:27:12.000Z">
 <meta property="article:modified_time" content="2022-08-11T06:59:56.788Z">
@@ -40,11 +40,7 @@
 
   
   
-<!-- hexo injector head_end start -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
-<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 <body>
   <div id="container">
@@ -105,28 +101,20 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <p>很直觀的DP題<br>可以很容易想到$O(n^2)$的解法</p>
-<p>##Solution1</p>
-<p>$dp[i][0]$為前i個數之間選取第i個數的subsequence中最長的wiggle sequence長度 然後末兩位的差是負數<br>$dp[i][1]$為前i個數之間選取第i個數的subsequence中最長的wiggle sequence長度 然後末兩位的差是正數</p>
-<p>轉移式大概長這樣</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> all j&lt;i</span><br><span class="line">	<span class="keyword">if</span> nums[i] - nums[j] &lt; <span class="number">0</span></span><br><span class="line">		dp[i][<span class="number">0</span>] = max(dp[i][<span class="number">0</span>], dp[j][<span class="number">1</span>] + <span class="number">1</span>)</span><br><span class="line">	<span class="keyword">if</span> nums[i] - nums[j] &gt; <span class="number">0</span></span><br><span class="line">		dp[i][<span class="number">1</span>] = max(dp[i][<span class="number">1</span>], dp[j][<span class="number">0</span>] + <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
-
-<p>###Submit code</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">wiggleMaxLength</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> dp[<span class="number">1234</span>][<span class="number">2</span>]=&#123;&#125;;</span><br><span class="line">        <span class="type">int</span> sz = nums.<span class="built_in">size</span>(), ans = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;sz;i++) dp[i][<span class="number">0</span>] = dp[i][<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;sz;i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;i;j++)&#123;</span><br><span class="line">                <span class="keyword">if</span>(nums[j]-nums[i]&lt;<span class="number">0</span>)</span><br><span class="line">                    dp[i][<span class="number">0</span>] = <span class="built_in">max</span>(dp[i][<span class="number">0</span>],dp[j][<span class="number">1</span>]+<span class="number">1</span>);</span><br><span class="line">                <span class="keyword">if</span>(nums[j]-nums[i]&gt;<span class="number">0</span>)</span><br><span class="line">                    dp[i][<span class="number">1</span>] = <span class="built_in">max</span>(dp[i][<span class="number">1</span>],dp[j][<span class="number">0</span>]+<span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            ans = <span class="built_in">max</span>(ans, <span class="built_in">max</span>(dp[i][<span class="number">0</span>],dp[i][<span class="number">1</span>]));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>###Performance<br>Runtime: <strong>11</strong> ms, faster than <strong>29.70%</strong> of C++ online submissions for Wiggle Subsequence.<br>Memory Usage: <strong>7</strong> MB, less than <strong>75.53%</strong> of C++ online submissions for Wiggle Subsequence.</p>
-<p>##Solution2</p>
-<p>後來發現，其實可以用greedy來解決<br>$down[i]$表示前i個數所產生的子序列中，最後兩位的差是負數的最長wiggle sequence的長度<br>$up[i]$表示前i個數所產生的子序列中，最後兩位的差是正數的最長wiggle sequence的長度<br>時間複雜度$O(n)$<br>然後轉移式</p>
+<h2 id="Solution1"><a href="#Solution1" class="headerlink" title="Solution1"></a>Solution1</h2><p>$dp[i][0]$為前i個數之間選取第i個數的subsequence中最長的wiggle sequence長度 然後末兩位的差是負數<br>$dp[i][1]$為前i個數之間選取第i個數的subsequence中最長的wiggle sequence長度 然後末兩位的差是正數</p>
+<p>轉移式大概長這樣<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> all j&lt;i</span><br><span class="line">	<span class="keyword">if</span> nums[i] - nums[j] &lt; <span class="number">0</span></span><br><span class="line">		dp[i][<span class="number">0</span>] = max(dp[i][<span class="number">0</span>], dp[j][<span class="number">1</span>] + <span class="number">1</span>)</span><br><span class="line">	<span class="keyword">if</span> nums[i] - nums[j] &gt; <span class="number">0</span></span><br><span class="line">		dp[i][<span class="number">1</span>] = max(dp[i][<span class="number">1</span>], dp[j][<span class="number">0</span>] + <span class="number">1</span>)</span><br></pre></td></tr></table></figure></p>
+<h3 id="Submit-code"><a href="#Submit-code" class="headerlink" title="Submit code"></a>Submit code</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">wiggleMaxLength</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> dp[<span class="number">1234</span>][<span class="number">2</span>]=&#123;&#125;;</span><br><span class="line">        <span class="type">int</span> sz = nums.<span class="built_in">size</span>(), ans = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;sz;i++) dp[i][<span class="number">0</span>] = dp[i][<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;sz;i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;i;j++)&#123;</span><br><span class="line">                <span class="keyword">if</span>(nums[j]-nums[i]&lt;<span class="number">0</span>)</span><br><span class="line">                    dp[i][<span class="number">0</span>] = <span class="built_in">max</span>(dp[i][<span class="number">0</span>],dp[j][<span class="number">1</span>]+<span class="number">1</span>);</span><br><span class="line">                <span class="keyword">if</span>(nums[j]-nums[i]&gt;<span class="number">0</span>)</span><br><span class="line">                    dp[i][<span class="number">1</span>] = <span class="built_in">max</span>(dp[i][<span class="number">1</span>],dp[j][<span class="number">0</span>]+<span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            ans = <span class="built_in">max</span>(ans, <span class="built_in">max</span>(dp[i][<span class="number">0</span>],dp[i][<span class="number">1</span>]));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="Performance"><a href="#Performance" class="headerlink" title="Performance"></a>Performance</h3><p>Runtime: <strong>11</strong> ms, faster than <strong>29.70%</strong> of C++ online submissions for Wiggle Subsequence.<br>Memory Usage: <strong>7</strong> MB, less than <strong>75.53%</strong> of C++ online submissions for Wiggle Subsequence.</p>
+<h2 id="Solution2"><a href="#Solution2" class="headerlink" title="Solution2"></a>Solution2</h2><p>後來發現，其實可以用greedy來解決<br>$down[i]$表示前i個數所產生的子序列中，最後兩位的差是負數的最長wiggle sequence的長度<br>$up[i]$表示前i個數所產生的子序列中，最後兩位的差是正數的最長wiggle sequence的長度<br>時間複雜度$O(n)$<br>然後轉移式</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> all i</span><br><span class="line">	<span class="keyword">if</span> num[i] &gt; num[i<span class="number">-1</span>]</span><br><span class="line">		up[i] = down[i<span class="number">-1</span>] + <span class="number">1</span></span><br><span class="line">		down[i] = down[i<span class="number">-1</span>]</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> num[i] &lt; num[i<span class="number">-1</span>]</span><br><span class="line">		down[i] = up[i<span class="number">-1</span>] + <span class="number">1</span></span><br><span class="line">		up[i] = up[i<span class="number">-1</span>]</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		down[i] = down[i<span class="number">-1</span>]</span><br><span class="line">		up[i] = up[i<span class="number">-1</span>] </span><br></pre></td></tr></table></figure>
 <p>然後又發現down,up兩個數列可以把他們壓成各一個數</p>
-<p>###Submit code</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">wiggleMaxLength</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> down = <span class="number">0</span>, up = <span class="number">0</span>, sz = nums.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;sz;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(nums[i]&gt;nums[i<span class="number">-1</span>]) up = down+<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(nums[i]&lt;nums[i<span class="number">-1</span>]) down = up+<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">max</span>(up,down)+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>###Performance<br>Runtime: <strong>0</strong> ms, faster than <strong>100.00%</strong> of C++ online submissions for Wiggle Subsequence.<br>Memory Usage: <strong>7.1</strong> MB, less than <strong>75.53%</strong> of C++ online submissions for Wiggle Subsequence.</p>
+<h3 id="Submit-code-1"><a href="#Submit-code-1" class="headerlink" title="Submit code"></a>Submit code</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">wiggleMaxLength</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> down = <span class="number">0</span>, up = <span class="number">0</span>, sz = nums.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;sz;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(nums[i]&gt;nums[i<span class="number">-1</span>]) up = down+<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(nums[i]&lt;nums[i<span class="number">-1</span>]) down = up+<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">max</span>(up,down)+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="Performance-1"><a href="#Performance-1" class="headerlink" title="Performance"></a>Performance</h3><p>Runtime: <strong>0</strong> ms, faster than <strong>100.00%</strong> of C++ online submissions for Wiggle Subsequence.<br>Memory Usage: <strong>7.1</strong> MB, less than <strong>75.53%</strong> of C++ online submissions for Wiggle Subsequence.</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/07/03/WiggleSubsequence/" data-id="cljfr2wys000a31n9bo95f54t" data-title="LeetCode376 - Wiggle Subsequence" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2022/07/03/WiggleSubsequence/" data-id="cljfry7z30007qan9a11f68by" data-title="LeetCode376 - Wiggle Subsequence" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -201,10 +189,6 @@
           </li>
         
           <li>
-            <a href="/2023/06/25/hello-world/">Hello World</a>
-          </li>
-        
-          <li>
             <a href="/2022/08/11/PoorPigs/">LeetCode458 - Poor Pigs</a>
           </li>
         
@@ -214,6 +198,10 @@
         
           <li>
             <a href="/2022/07/11/LinkedListCycle/">LeetCode141 - Linked List Cycle</a>
+          </li>
+        
+          <li>
+            <a href="/2022/07/08/PaintHouseIII/">LeetCode1473 - Paint House III</a>
           </li>
         
       </ul>
@@ -263,5 +251,21 @@
 
 
   </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </body>
 </html>
