@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>LeetCode2818 - Apply Operations to Maximize Score | Phan Diary</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Description定義一個數字的Prime Score為該數字的質因數個數例如 $300 &#x3D; 2{\times}2{\times}3{\times}5{\times}5$, 則300的Prime Score為3 然後現在要你選k個不同的區間，使得每個區間中Prime Score最高的數相乘最大 Solution首先是Prime Score的計算可以一邊建質數表一邊算 再來是要算每個數字對應到的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LeetCode2818 - Apply Operations to Maximize Score">
+<meta property="og:url" content="http://example.com/2023/08/15/ApplyOperationsToMaximizeScore/index.html">
+<meta property="og:site_name" content="Phan Diary">
+<meta property="og:description" content="Description定義一個數字的Prime Score為該數字的質因數個數例如 $300 &#x3D; 2{\times}2{\times}3{\times}5{\times}5$, 則300的Prime Score為3 然後現在要你選k個不同的區間，使得每個區間中Prime Score最高的數相乘最大 Solution首先是Prime Score的計算可以一邊建質數表一邊算 再來是要算每個數字對應到的">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-08-15T04:09:35.000Z">
+<meta property="article:modified_time" content="2023-08-15T05:25:50.955Z">
+<meta property="article:author" content="dapu81000">
+<meta property="article:tag" content="hard">
+<meta property="article:tag" content="monotonic">
+<meta property="article:tag" content="powmod">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Phan Diary" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Phan Diary</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-ApplyOperationsToMaximizeScore" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/08/15/ApplyOperationsToMaximizeScore/" class="article-date">
+  <time class="dt-published" datetime="2023-08-15T04:09:35.000Z" itemprop="datePublished">2023-08-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      LeetCode2818 - Apply Operations to Maximize Score
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h2><p>定義一個數字的<strong>Prime Score</strong>為該數字的質因數個數<br>例如 $300 = 2{\times}2{\times}3{\times}5{\times}5$, 則300的<strong>Prime Score</strong>為3</p>
+<p>然後現在要你選k個不同的區間，使得每個區間中<strong>Prime Score</strong>最高的數相乘最大</p>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>首先是<strong>Prime Score</strong>的計算<br>可以一邊建質數表一邊算</p>
+<p>再來是要算每個數字對應到的左右最大區間<br>使得這個數字是區間裡面<strong>Prime Score</strong>最大的數<br>直接一格一格左右推會超時 $O(n){\times}O(n)$<br>對於左區間來說<br>我們要的是前一個<strong>Prime Score</strong>比當前數字的<strong>Prime Score</strong>大的位子<br>觀察一下可以發現 前面的數字中 比當前數字的<strong>Prime Score</strong>還小的 對於後面還沒找的左區間沒有用<br>因為要是後面的<strong>Prime Score</strong>比當前的小 那左界最左也只會到當前<br>要是後面的<strong>Prime Score</strong>比當前的大 那就會是找前面比當前大的<br>那右區間也是相同道理<br>具有單調性 所以這樣整體的複雜度是 $O(n)$</p>
+<p>找完每個數字對應到的左右區間<br>再來就是算答案<br>因為乘的次數不小<br>這邊要用到快速冪<br>這樣答案就出來了</p>
+<h3 id="Submit-Code"><a href="#Submit-Code" class="headerlink" title="Submit Code"></a>Submit Code</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="type">int</span> l[<span class="number">100001</span>], r[<span class="number">100001</span>], n;</span><br><span class="line">    <span class="type">int</span> ps[<span class="number">100001</span>] = &#123;&#125;, mx;</span><br><span class="line">    <span class="type">bool</span> prime[<span class="number">100001</span>];</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">build</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="built_in">memset</span>(prime,<span class="literal">true</span>,<span class="keyword">sizeof</span> prime);</span><br><span class="line">        prime[<span class="number">0</span>] = prime[<span class="number">1</span>] = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">2</span>;i&lt;=mx;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(prime[i])&#123;</span><br><span class="line">                ps[i] = <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">for</span>(<span class="type">int</span> j=i*<span class="number">2</span>;j&lt;=mx;j+=i)&#123;</span><br><span class="line">                    prime[j] = <span class="literal">false</span>;</span><br><span class="line">                    ps[j]++;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">#<span class="keyword">define</span> ll long long</span></span><br><span class="line">    <span class="meta">#<span class="keyword">define</span> pll pair<span class="string">&lt;ll,ll&gt;</span></span></span><br><span class="line">    ll count[<span class="number">100001</span>] = &#123;&#125;;</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> mod = <span class="number">1e9</span>+<span class="number">7</span>;</span><br><span class="line">    <span class="function">ll <span class="title">powmod</span><span class="params">(ll x,ll cnt)</span></span>&#123;</span><br><span class="line">        ll res = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span>(cnt)&#123;</span><br><span class="line">            <span class="keyword">if</span>(cnt&amp;<span class="number">1</span>) res = (res*x) % mod;</span><br><span class="line">            x = (x*x)%mod;</span><br><span class="line">            cnt&gt;&gt;=<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">maximumScore</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> k)</span> </span>&#123;</span><br><span class="line">        mx = *<span class="built_in">max_element</span>(nums.<span class="built_in">begin</span>(),nums.<span class="built_in">end</span>());</span><br><span class="line">        <span class="built_in">build</span>();</span><br><span class="line">        n = nums.<span class="built_in">size</span>();</span><br><span class="line">        priority_queue&lt;<span class="type">int</span>&gt; pq;</span><br><span class="line">        stack&lt;<span class="type">int</span>&gt; st, st2;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">            l[i] = i;</span><br><span class="line">            r[n-i<span class="number">-1</span>] = n-i<span class="number">-1</span>;</span><br><span class="line">            <span class="keyword">while</span>(!st.<span class="built_in">empty</span>() &amp;&amp; ps[nums[st.<span class="built_in">top</span>()]] &lt; ps[nums[i]]) st.<span class="built_in">pop</span>();</span><br><span class="line">            <span class="keyword">while</span>(!st2.<span class="built_in">empty</span>() &amp;&amp; ps[nums[st2.<span class="built_in">top</span>()]] &lt;= ps[nums[n-i<span class="number">-1</span>]]) st2.<span class="built_in">pop</span>();</span><br><span class="line">            <span class="keyword">if</span>(st.<span class="built_in">empty</span>()) l[i] = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">else</span> l[i] = st.<span class="built_in">top</span>()+<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>(st2.<span class="built_in">empty</span>()) r[n-i<span class="number">-1</span>] = n<span class="number">-1</span>;</span><br><span class="line">            <span class="keyword">else</span> r[n-i<span class="number">-1</span>] = st2.<span class="built_in">top</span>()<span class="number">-1</span>;</span><br><span class="line"></span><br><span class="line">            st.<span class="built_in">push</span>(i);</span><br><span class="line">            st2.<span class="built_in">push</span>(n-i<span class="number">-1</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(count[nums[i]] == <span class="number">0</span>)</span><br><span class="line">                pq.<span class="built_in">push</span>(nums[i]);</span><br><span class="line">            count[nums[i]] += (i-l[i]+<span class="number">1</span>)*(r[i]-i+<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        ll res = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span>(k)&#123;</span><br><span class="line">            <span class="type">int</span> tmp = pq.<span class="built_in">top</span>();pq.<span class="built_in">pop</span>();</span><br><span class="line">            res = (res * <span class="built_in">powmod</span>((ll)tmp,<span class="built_in">min</span>(count[tmp],(ll)k)))%mod;</span><br><span class="line">            k -= <span class="built_in">min</span>(count[tmp],(ll)k);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> (<span class="type">int</span>)res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>整體上來說不難想 不過寫起來有點麻煩<br>吃了好幾次TLE 常數要壓一下==(也有可能是我寫太爛</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/08/15/ApplyOperationsToMaximizeScore/" data-id="cllbsm7s80000hon99m9d6c6u" data-title="LeetCode2818 - Apply Operations to Maximize Score" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hard/" rel="tag">hard</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/monotonic/" rel="tag">monotonic</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/powmod/" rel="tag">powmod</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2023/07/04/SingleNumberII/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">LeetCode137 - Single Number II</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/BFS/" rel="tag">BFS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/binary-search/" rel="tag">binary search</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bitwise/" rel="tag">bitwise</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/data-structure/" rel="tag">data structure</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/disjoint-set/" rel="tag">disjoint set</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dp/" rel="tag">dp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/easy/" rel="tag">easy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/greedy/" rel="tag">greedy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hard/" rel="tag">hard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linked-list/" rel="tag">linked list</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/math/" rel="tag">math</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/medium/" rel="tag">medium</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/monotonic/" rel="tag">monotonic</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/monotonic-stack/" rel="tag">monotonic stack</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/powmod/" rel="tag">powmod</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/BFS/" style="font-size: 10px;">BFS</a> <a href="/tags/binary-search/" style="font-size: 10px;">binary search</a> <a href="/tags/bitwise/" style="font-size: 10px;">bitwise</a> <a href="/tags/data-structure/" style="font-size: 10px;">data structure</a> <a href="/tags/disjoint-set/" style="font-size: 10px;">disjoint set</a> <a href="/tags/dp/" style="font-size: 17.5px;">dp</a> <a href="/tags/easy/" style="font-size: 10px;">easy</a> <a href="/tags/greedy/" style="font-size: 12.5px;">greedy</a> <a href="/tags/hard/" style="font-size: 20px;">hard</a> <a href="/tags/linked-list/" style="font-size: 10px;">linked list</a> <a href="/tags/math/" style="font-size: 10px;">math</a> <a href="/tags/medium/" style="font-size: 15px;">medium</a> <a href="/tags/monotonic/" style="font-size: 10px;">monotonic</a> <a href="/tags/monotonic-stack/" style="font-size: 10px;">monotonic stack</a> <a href="/tags/powmod/" style="font-size: 10px;">powmod</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/08/">August 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/07/">July 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/08/15/ApplyOperationsToMaximizeScore/">LeetCode2818 - Apply Operations to Maximize Score</a>
+          </li>
+        
+          <li>
+            <a href="/2023/07/04/SingleNumberII/">LeetCode137 - Single Number II</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/30/LastDayWhereYouCanStillCross/">LeetCode1970 - Last Day Where You Can Still Cross</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/25/Tallest%20Billboard/">LeetCode956 - Tallest Billboard</a>
+          </li>
+        
+          <li>
+            <a href="/2022/08/11/PoorPigs/">LeetCode458 - Poor Pigs</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 dapu81000<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</body>
+</html>
