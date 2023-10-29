@@ -6,15 +6,15 @@
   
   <title>LeetCode458 - Poor Pigs | Phan Diary</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="Description有很多桶子，每桶都有水，然後其中一桶有毒，豬豬喝了會死每次測驗每隻豬豬都可以選定喝任意桶水測驗次數最多n次問你最至少要幾隻豬豬才能測出哪桶水有毒 Solution1這題最關鍵的點應該就是要換個角度思考她問你至少要幾隻豬豬才測得出來那我們先找固定次數以及固定隻數的豬豬，最多可以測幾桶水首先假設最多可以測$n$次，然後有$m$隻豬豬，然後$dp[n][m]$是最多可以測幾桶水下面">
+  <meta name="description" content="2023&#x2F;10&#x2F;29 UpdateDescription有很多桶子，每桶都有水，然後其中一桶有毒，豬豬喝了會死每次測驗每隻豬豬都可以選定喝任意桶水測驗次數最多n次問你最至少要幾隻豬豬才能測出哪桶水有毒 Solution1這題最關鍵的點應該就是要換個角度思考她問你至少要幾隻豬豬才測得出來那我們先找固定次數以及固定隻數的豬豬，最多可以測幾桶水首先假設最多可以測$n$次，然後有$m$隻豬豬，然後$dp[">
 <meta property="og:type" content="article">
 <meta property="og:title" content="LeetCode458 - Poor Pigs">
 <meta property="og:url" content="http://example.com/2022/08/11/PoorPigs/index.html">
 <meta property="og:site_name" content="Phan Diary">
-<meta property="og:description" content="Description有很多桶子，每桶都有水，然後其中一桶有毒，豬豬喝了會死每次測驗每隻豬豬都可以選定喝任意桶水測驗次數最多n次問你最至少要幾隻豬豬才能測出哪桶水有毒 Solution1這題最關鍵的點應該就是要換個角度思考她問你至少要幾隻豬豬才測得出來那我們先找固定次數以及固定隻數的豬豬，最多可以測幾桶水首先假設最多可以測$n$次，然後有$m$隻豬豬，然後$dp[n][m]$是最多可以測幾桶水下面">
+<meta property="og:description" content="2023&#x2F;10&#x2F;29 UpdateDescription有很多桶子，每桶都有水，然後其中一桶有毒，豬豬喝了會死每次測驗每隻豬豬都可以選定喝任意桶水測驗次數最多n次問你最至少要幾隻豬豬才能測出哪桶水有毒 Solution1這題最關鍵的點應該就是要換個角度思考她問你至少要幾隻豬豬才測得出來那我們先找固定次數以及固定隻數的豬豬，最多可以測幾桶水首先假設最多可以測$n$次，然後有$m$隻豬豬，然後$dp[">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-08-11T06:56:45.000Z">
-<meta property="article:modified_time" content="2022-08-11T07:54:14.418Z">
+<meta property="article:modified_time" content="2023-10-29T05:16:39.836Z">
 <meta property="article:author" content="dapu81000">
 <meta property="article:tag" content="hard">
 <meta property="article:tag" content="dp">
@@ -100,7 +100,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h2 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h2><p>有很多桶子，每桶都有水，然後其中一桶有毒，豬豬喝了會死<br>每次測驗每隻豬豬都可以選定喝任意桶水<br>測驗次數最多n次<br>問你最至少要幾隻豬豬才能測出哪桶水有毒</p>
+        <h3 id="2023-10-29-Update"><a href="#2023-10-29-Update" class="headerlink" title="2023/10/29 Update"></a><span style="color:red;">2023/10/29 Update</span></h3><h2 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h2><p>有很多桶子，每桶都有水，然後其中一桶有毒，豬豬喝了會死<br>每次測驗每隻豬豬都可以選定喝任意桶水<br>測驗次數最多n次<br>問你最至少要幾隻豬豬才能測出哪桶水有毒</p>
 <h2 id="Solution1"><a href="#Solution1" class="headerlink" title="Solution1"></a>Solution1</h2><p>這題最關鍵的點應該就是要換個角度思考<br>她問你至少要幾隻豬豬才測得出來<br>那我們先找固定次數以及固定隻數的豬豬，最多可以測幾桶水<br>首先假設最多可以測$n$次，然後有$m$隻豬豬，<br>然後$dp[n][m]$是最多可以測幾桶水<br>下面歸類一下$dp[n][m]$的各項轉移式</p>
 <p>測完一次後，</p>
 <p><strong>1.豬豬都沒死</strong><br>豬豬數一樣，然後少一次機會測<br>$=&gt; dp[n][m] += dp[n-1][m]$</p>
@@ -110,7 +110,7 @@
 <h3 id="Solution2"><a href="#Solution2" class="headerlink" title="Solution2"></a>Solution2</h3><p>那如果當n,m越來越大，solution1就可能會超時<br>這個解法其實是建立在猜測的基礎上XD<br>觀察轉移式後，發現長得很像展開後的二項式，<br>所以這邊猜$dp[n][m] = (n+1)^m$<br>證明的話就用數學歸納法證，不難證就不放過程了(?</p>
 <p>最後<br>假設有k個桶子，我們要找到最小的m<br>使得$k \leq (n+1)^m$<br>然後用log再移一下項，可以得到<br>${log(k) \over log(n+1)} \leq m$<br>然後ceiling一下，就找到我們要的$m$了<br>複雜度$O(1)$</p>
 <h3 id="Submit-Code"><a href="#Submit-Code" class="headerlink" title="Submit Code"></a>Submit Code</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">poorPigs</span><span class="params">(<span class="type">int</span> buckets, <span class="type">int</span> minutesToDie, <span class="type">int</span> minutesToTest)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n = minutesToTest / minutesToDie;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">ceil</span>(<span class="built_in">log</span>(buckets)/<span class="built_in">log</span>(n+<span class="number">1</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">buckets &lt;= (n+1)^m</span></span><br><span class="line"><span class="comment">log(buckets) &lt;= mlog(n+1)</span></span><br><span class="line"><span class="comment">log(buckets) / log(n+1) &lt;= m</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
-<h3 id="Performance"><a href="#Performance" class="headerlink" title="Performance"></a>Performance</h3><p>Runtime: <strong>6</strong> ms, faster than <strong>10.91%</strong> of C++ online submissions for Poor Pigs.<br>Memory Usage: <strong>6</strong> MB, less than <strong>58.91%</strong> of C++ online submissions for Poor Pigs.</p>
+<h3 id="2023-10-29-Update-1"><a href="#2023-10-29-Update-1" class="headerlink" title="2023/10/29 Update"></a><span style="color:red;">2023/10/29 Update</span></h3><p>剛好10/29的Daily Challenge又輪到這題<br>丟一樣的解結果噴WA== 好像有加新的測資<br>看了一下發現上面直接算log會有精度誤差 沒想到之前竟然沒卡<br>那因為前面有推出來(?) $dp[n][m] = (n+1)^m$<br>我們要求的是最小的m使得 $dp[n][m] \geq k$<br>n,k是已知 所以可以去推m<br>這邊就不再多放程式碼ㄌ</p>
 <h3 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h3><p>這是8/6的daily challenge<br>一開始真的沒啥想法 一直在想要怎麼分配豬豬去喝水==<br>後來偷看了Discuss之後才發現要換個方向想==<br>一開始覺得那個一般式很沒道理，後來稍微推導一下才懂，還好不難推XD<br>總之這題體感介於medium和hard啦，最關鍵大概是要換個角度想，<br>一般式的話應該可求可不求，要求的話就大概要發現他是二項式</p>
 
       
@@ -258,21 +258,5 @@
 
 
   </div>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </body>
 </html>
