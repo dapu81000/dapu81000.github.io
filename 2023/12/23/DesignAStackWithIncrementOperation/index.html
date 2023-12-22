@@ -4,20 +4,21 @@
   <meta charset="utf-8">
   
   
-  <title>LeetCode137 - Single Number II | Phan Diary</title>
+  <title>LeetCode1381 - Design a Stack With Increment Operation | Phan Diary</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="Description給你一串數字，裡面的數字都出現三次，只有一個出現一次問你只出現一次的數字 Solution1Sorting or Hashing兩個都是 $O(n\cdot{log(n)})$ Solution2用bitmask去看每個位置的bit出現幾次複雜度好一點 大概是$O(32\cdot{n})$ Submit Code12345678910111213141516class Sol">
+  <meta name="description" content="Description題目要求你實作出一個stack他可以  Push Pop Increment multiple elements from bottom  然後Pop的時候要順便輸出Pop掉的值 Solution1可以發現題目給的限制都很小所以可以直接一個一個加更新的複雜度 $O(N)$ Solution2但若當處理的數量${\leq}10^6$左右時，Solution1應該會超時稍微想一下">
 <meta property="og:type" content="article">
-<meta property="og:title" content="LeetCode137 - Single Number II">
-<meta property="og:url" content="http://example.com/2023/07/04/SingleNumberII/index.html">
+<meta property="og:title" content="LeetCode1381 - Design a Stack With Increment Operation">
+<meta property="og:url" content="http://example.com/2023/12/23/DesignAStackWithIncrementOperation/index.html">
 <meta property="og:site_name" content="Phan Diary">
-<meta property="og:description" content="Description給你一串數字，裡面的數字都出現三次，只有一個出現一次問你只出現一次的數字 Solution1Sorting or Hashing兩個都是 $O(n\cdot{log(n)})$ Solution2用bitmask去看每個位置的bit出現幾次複雜度好一點 大概是$O(32\cdot{n})$ Submit Code12345678910111213141516class Sol">
+<meta property="og:description" content="Description題目要求你實作出一個stack他可以  Push Pop Increment multiple elements from bottom  然後Pop的時候要順便輸出Pop掉的值 Solution1可以發現題目給的限制都很小所以可以直接一個一個加更新的複雜度 $O(N)$ Solution2但若當處理的數量${\leq}10^6$左右時，Solution1應該會超時稍微想一下">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2023-07-04T03:35:02.000Z">
-<meta property="article:modified_time" content="2023-07-04T03:50:32.660Z">
+<meta property="article:published_time" content="2023-12-22T17:15:29.000Z">
+<meta property="article:modified_time" content="2023-12-22T17:45:39.316Z">
 <meta property="article:author" content="dapu81000">
 <meta property="article:tag" content="medium">
-<meta property="article:tag" content="bitwise">
+<meta property="article:tag" content="array">
+<meta property="article:tag" content="interview">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="Phan Diary" type="application/atom+xml">
@@ -77,10 +78,10 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-SingleNumberII" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-DesignAStackWithIncrementOperation" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2023/07/04/SingleNumberII/" class="article-date">
-  <time class="dt-published" datetime="2023-07-04T03:35:02.000Z" itemprop="datePublished">2023-07-04</time>
+    <a href="/2023/12/23/DesignAStackWithIncrementOperation/" class="article-date">
+  <time class="dt-published" datetime="2023-12-22T17:15:29.000Z" itemprop="datePublished">2023-12-23</time>
 </a>
     
   </div>
@@ -91,7 +92,7 @@
         
   
     <h1 class="p-name article-title" itemprop="headline name">
-      LeetCode137 - Single Number II
+      LeetCode1381 - Design a Stack With Increment Operation
     </h1>
   
 
@@ -99,23 +100,26 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h2 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h2><p>給你一串數字，裡面的數字都出現三次，只有一個出現一次<br>問你只出現一次的數字</p>
-<h2 id="Solution1"><a href="#Solution1" class="headerlink" title="Solution1"></a>Solution1</h2><p>Sorting or Hashing<br>兩個都是 $O(n\cdot{log(n)})$</p>
-<h2 id="Solution2"><a href="#Solution2" class="headerlink" title="Solution2"></a>Solution2</h2><p>用bitmask去看每個位置的bit出現幾次<br>複雜度好一點 大概是$O(32\cdot{n})$</p>
-<h3 id="Submit-Code"><a href="#Submit-Code" class="headerlink" title="Submit Code"></a>Submit Code</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">singleNumber</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> ans = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">32</span>;i++)&#123;</span><br><span class="line">            <span class="type">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> x:nums)&#123;</span><br><span class="line">                cnt += (x&amp;(<span class="number">1</span>&lt;&lt;i)?<span class="number">1</span>:<span class="number">0</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(cnt%<span class="number">3</span> == <span class="number">1</span>)&#123;</span><br><span class="line">                ans += (<span class="number">1</span>&lt;&lt;i);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h2 id="Solution3"><a href="#Solution3" class="headerlink" title="Solution3"></a>Solution3</h2><p>大概的想法是這樣<br>用bitwise去存一個數字出現的次數<br>psuedo code大概是這樣</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ones = (ones^num)&amp;(~twos)</span><br><span class="line">twos = (twos^num)&amp;(~ones)</span><br></pre></td></tr></table></figure>
-<p>觀察一下大概可以發現<br>如果一個數字第一次出現 那ones會有這個數<br>那如果第二次出現 ones就會沒這個數 twos會出現這個數<br>第三次出現 ones twos都會沒這個數<br>所以把全部的數處理完後 ones就會是只出現一次的那個數<br>複雜度$O(n)$</p>
-<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>其實一開始讀題目就有覺得可以用bitwise搞 不過想不出來== 所以用sorting亂搞<br>後來看別人的solution才知道bitwise的大致想法<br>功力還有待加強QQ</p>
+        <h2 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h2><p>題目要求你實作出一個stack<br>他可以</p>
+<ul>
+<li>Push</li>
+<li>Pop</li>
+<li>Increment multiple elements from bottom</li>
+</ul>
+<p>然後Pop的時候要順便輸出Pop掉的值</p>
+<h2 id="Solution1"><a href="#Solution1" class="headerlink" title="Solution1"></a>Solution1</h2><p>可以發現題目給的限制都很小<br>所以可以直接一個一個加<br>更新的複雜度 $O(N)$</p>
+<h2 id="Solution2"><a href="#Solution2" class="headerlink" title="Solution2"></a>Solution2</h2><p>但若當處理的數量${\leq}10^6$左右時，Solution1應該會超時<br>稍微想一下，會發現說其實前面的值沒必要先算，唯一要考慮的是當前stack的top要怎麼處理<br>Increment的時候去紀錄加到第幾個element及加了多少<br>Pop的時候算出原本的值加上前面紀錄的值，然後再更新Pop掉這個數對前面造成的影響<br>Push就不用另外多做處理<br>更新的複雜度 $O(1)$</p>
+<h3 id="Submit-Code"><a href="#Submit-Code" class="headerlink" title="Submit Code"></a>Submit Code</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">CustomStack</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    vector&lt;<span class="type">int</span>&gt; arr,add;</span><br><span class="line">    <span class="type">int</span> cur;</span><br><span class="line">    <span class="built_in">CustomStack</span>(<span class="type">int</span> maxSize) &#123;</span><br><span class="line">        arr.<span class="built_in">resize</span>(maxSize);</span><br><span class="line">        add.<span class="built_in">resize</span>(maxSize);</span><br><span class="line">        cur = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">push</span><span class="params">(<span class="type">int</span> x)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(cur &gt;= arr.<span class="built_in">size</span>()) <span class="keyword">return</span>;</span><br><span class="line">        arr[cur++] = x;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">pop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!cur) <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">        cur--;</span><br><span class="line">        <span class="type">int</span> res = arr[cur] + add[cur];</span><br><span class="line">        <span class="keyword">if</span>(cur) add[cur<span class="number">-1</span>] += add[cur];</span><br><span class="line">        add[cur] = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">increment</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> val)</span> </span>&#123;</span><br><span class="line">        k = <span class="built_in">min</span>(k,cur);</span><br><span class="line">        <span class="keyword">if</span>(k) add[k<span class="number">-1</span>] += val;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Your CustomStack object will be instantiated and called as such:</span></span><br><span class="line"><span class="comment"> * CustomStack* obj = new CustomStack(maxSize);</span></span><br><span class="line"><span class="comment"> * obj-&gt;push(x);</span></span><br><span class="line"><span class="comment"> * int param_2 = obj-&gt;pop();</span></span><br><span class="line"><span class="comment"> * obj-&gt;increment(k,val);</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>一開始腦袋卡住想不出來有什麼比較好的辦法，最後五分鐘寫了一個線段樹，但結果是錯的==<br>整體並不難也不難想，體感大概是medium偏easy，不過我一開始想不出來&gt;&lt;</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/07/04/SingleNumberII/" data-id="clob1e1bx000ak97a5n6d7san" data-title="LeetCode137 - Single Number II" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/12/23/DesignAStackWithIncrementOperation/" data-id="clqgxarwy0006xj7a8namg87p" data-title="LeetCode1381 - Design a Stack With Increment Operation" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/bitwise/" rel="tag">bitwise</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/medium/" rel="tag">medium</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/array/" rel="tag">array</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/interview/" rel="tag">interview</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/medium/" rel="tag">medium</a></li></ul>
 
     </footer>
   </div>
@@ -123,19 +127,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2023/08/15/ApplyOperationsToMaximizeScore/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          LeetCode2818 - Apply Operations to Maximize Score
-        
-      </div>
-    </a>
   
-  
-    <a href="/2023/06/30/LastDayWhereYouCanStillCross/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2023/10/21/ConstrainedSubsequenceSum/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">LeetCode1970 - Last Day Where You Can Still Cross</div>
+      <div class="article-nav-title">LeetCode1425 - Constrained Subsequence Sum</div>
     </a>
   
 </nav>

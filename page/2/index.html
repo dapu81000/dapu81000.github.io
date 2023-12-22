@@ -73,6 +73,55 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-InterleavingString" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/07/07/InterleavingString/" class="article-date">
+  <time class="dt-published" datetime="2022-07-07T04:09:05.000Z" itemprop="datePublished">2022-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/07/07/InterleavingString/">LeetCode97 - Interleaving String</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>給你三個字串$s1,s2,s3$，問你能不能把$s1$和$s2$分割並依序接成$s3$</p>
+<p>很直覺地又想到DP<br>複雜度 $O(s1*s2)$</p>
+<h2 id="Solution1"><a href="#Solution1" class="headerlink" title="Solution1"></a>Solution1</h2><p>$dp[i][j]$為$true$，則$s1$長度為$i$的前綴以及$s2$長度為$j$的前綴可以構出$s3$長度為$i+j$的前綴<br>反之則無法構造出<br>轉移式<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dp[i][j] = dp[i][j] | (dp[i][j<span class="number">-1</span>] &amp;&amp; s2[j] == s3[i+j]) | (dp[i<span class="number">-1</span>][j] &amp;&amp; s1[i] == s3[i+j])</span><br></pre></td></tr></table></figure></p>
+<h3 id="Submit-Code"><a href="#Submit-Code" class="headerlink" title="Submit Code"></a>Submit Code</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">isInterleave</span><span class="params">(string s1, string s2, string s3)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(s1.<span class="built_in">size</span>() + s2.<span class="built_in">size</span>() != s3.<span class="built_in">size</span>()) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="type">bool</span> dp[<span class="number">101</span>][<span class="number">101</span>] = &#123;&#125;;</span><br><span class="line">        dp[<span class="number">0</span>][<span class="number">0</span>] = <span class="literal">true</span>;</span><br><span class="line">        <span class="type">int</span> sz1 = s1.<span class="built_in">size</span>(), sz2 = s2.<span class="built_in">size</span>(), sz3 = s3.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;=sz1;i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;=sz2;j++)&#123;</span><br><span class="line">                <span class="keyword">if</span>(!i &amp;&amp; !j) <span class="keyword">continue</span>;</span><br><span class="line">                <span class="keyword">if</span>(i &amp;&amp; s1[i<span class="number">-1</span>] == s3[i+j<span class="number">-1</span>])</span><br><span class="line">                    dp[i][j] |= dp[i<span class="number">-1</span>][j];</span><br><span class="line">                <span class="keyword">if</span>(j &amp;&amp; s2[j<span class="number">-1</span>] == s3[i+j<span class="number">-1</span>])</span><br><span class="line">                    dp[i][j] |= dp[i][j<span class="number">-1</span>];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[sz1][sz2];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="Performance"><a href="#Performance" class="headerlink" title="Performance"></a>Performance</h3><p>Runtime: <strong>0</strong> ms, faster than <strong>100.00%</strong> of C++ online submissions for Interleaving String.<br>Memory Usage: <strong>6.3</strong> MB, less than <strong>89.89%</strong> of C++ online submissions for Interleaving String.</p>
+<h2 id="Solution2"><a href="#Solution2" class="headerlink" title="Solution2"></a>Solution2</h2><p>題敘後面叫你把空間壓到$O(s2.length)$<br>就是把Solution1的第一維壓掉<br>稍微解釋一下dp的概念<br>因為外層遍歷$i$，所以還沒更新前的$dp[j]$是$i-1$時的資料<br>有點難解釋，不過差不多就是這樣(?</p>
+<h3 id="Submit-Code-1"><a href="#Submit-Code-1" class="headerlink" title="Submit Code"></a>Submit Code</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">isInterleave</span><span class="params">(string s1, string s2, string s3)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(s1.<span class="built_in">size</span>() + s2.<span class="built_in">size</span>() != s3.<span class="built_in">size</span>()) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="type">bool</span> dp[<span class="number">101</span>] = &#123;&#125;;</span><br><span class="line">        <span class="type">int</span> sz1 = s1.<span class="built_in">size</span>(), sz2 = s2.<span class="built_in">size</span>(), sz3 = s3.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;=sz1;i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;=sz2;j++)&#123;</span><br><span class="line">                <span class="keyword">if</span>(!i &amp;&amp; !j)&#123;</span><br><span class="line">                    dp[j] = <span class="literal">true</span>;</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="type">bool</span> r1 = <span class="literal">false</span>, r2 = <span class="literal">false</span>;</span><br><span class="line">                <span class="keyword">if</span>(j) r1 = dp[j<span class="number">-1</span>] &amp;&amp; (s2[j<span class="number">-1</span>] == s3[i+j<span class="number">-1</span>]);</span><br><span class="line">                <span class="keyword">if</span>(i) r2 = dp[j] &amp;&amp; (s1[i<span class="number">-1</span>] == s3[i+j<span class="number">-1</span>]);</span><br><span class="line">                dp[j] = r1 || r2;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[sz2];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="Performance-1"><a href="#Performance-1" class="headerlink" title="Performance"></a>Performance</h3><p>Runtime: <strong>5</strong> ms, faster than <strong>65.30%</strong> of C++ online submissions for Interleaving String.<br>Memory Usage: <strong>6.2</strong> MB, less than <strong>89.89%</strong> of C++ online submissions for Interleaving String.</p>
+<p>測資算是小測資，所以基本上表現看不出啥差異</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/07/07/InterleavingString/" data-id="clob1e1bt0003k97a1jof8p7p" data-title="LeetCode97 - Interleaving String" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/dp/" rel="tag">dp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/medium/" rel="tag">medium</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-WiggleSubsequence" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2022/07/03/WiggleSubsequence/" class="article-date">
@@ -141,7 +190,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/BFS/" rel="tag">BFS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/binary-search/" rel="tag">binary search</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bitwise/" rel="tag">bitwise</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/data-structure/" rel="tag">data structure</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/disjoint-set/" rel="tag">disjoint set</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dp/" rel="tag">dp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/easy/" rel="tag">easy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/greedy/" rel="tag">greedy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hard/" rel="tag">hard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linked-list/" rel="tag">linked list</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/math/" rel="tag">math</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/medium/" rel="tag">medium</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/monotonic/" rel="tag">monotonic</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/monotonic-stack/" rel="tag">monotonic stack</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/powmod/" rel="tag">powmod</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/BFS/" rel="tag">BFS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/array/" rel="tag">array</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/binary-search/" rel="tag">binary search</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bitwise/" rel="tag">bitwise</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/data-structure/" rel="tag">data structure</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/disjoint-set/" rel="tag">disjoint set</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dp/" rel="tag">dp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/easy/" rel="tag">easy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/greedy/" rel="tag">greedy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hard/" rel="tag">hard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/interview/" rel="tag">interview</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linked-list/" rel="tag">linked list</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/math/" rel="tag">math</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/medium/" rel="tag">medium</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/monotonic/" rel="tag">monotonic</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/monotonic-stack/" rel="tag">monotonic stack</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/powmod/" rel="tag">powmod</a></li></ul>
     </div>
   </div>
 
@@ -151,7 +200,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/BFS/" style="font-size: 10px;">BFS</a> <a href="/tags/binary-search/" style="font-size: 10px;">binary search</a> <a href="/tags/bitwise/" style="font-size: 10px;">bitwise</a> <a href="/tags/data-structure/" style="font-size: 10px;">data structure</a> <a href="/tags/disjoint-set/" style="font-size: 10px;">disjoint set</a> <a href="/tags/dp/" style="font-size: 17.5px;">dp</a> <a href="/tags/easy/" style="font-size: 10px;">easy</a> <a href="/tags/greedy/" style="font-size: 12.5px;">greedy</a> <a href="/tags/hard/" style="font-size: 20px;">hard</a> <a href="/tags/linked-list/" style="font-size: 10px;">linked list</a> <a href="/tags/math/" style="font-size: 10px;">math</a> <a href="/tags/medium/" style="font-size: 15px;">medium</a> <a href="/tags/monotonic/" style="font-size: 12.5px;">monotonic</a> <a href="/tags/monotonic-stack/" style="font-size: 10px;">monotonic stack</a> <a href="/tags/powmod/" style="font-size: 10px;">powmod</a>
+      <a href="/tags/BFS/" style="font-size: 10px;">BFS</a> <a href="/tags/array/" style="font-size: 10px;">array</a> <a href="/tags/binary-search/" style="font-size: 10px;">binary search</a> <a href="/tags/bitwise/" style="font-size: 10px;">bitwise</a> <a href="/tags/data-structure/" style="font-size: 10px;">data structure</a> <a href="/tags/disjoint-set/" style="font-size: 10px;">disjoint set</a> <a href="/tags/dp/" style="font-size: 17.5px;">dp</a> <a href="/tags/easy/" style="font-size: 10px;">easy</a> <a href="/tags/greedy/" style="font-size: 12.5px;">greedy</a> <a href="/tags/hard/" style="font-size: 20px;">hard</a> <a href="/tags/interview/" style="font-size: 10px;">interview</a> <a href="/tags/linked-list/" style="font-size: 10px;">linked list</a> <a href="/tags/math/" style="font-size: 10px;">math</a> <a href="/tags/medium/" style="font-size: 15px;">medium</a> <a href="/tags/monotonic/" style="font-size: 12.5px;">monotonic</a> <a href="/tags/monotonic-stack/" style="font-size: 10px;">monotonic stack</a> <a href="/tags/powmod/" style="font-size: 10px;">powmod</a>
     </div>
   </div>
 
@@ -160,7 +209,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/10/">October 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/08/">August 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/07/">July 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/12/">December 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/10/">October 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/08/">August 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/07/">July 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a></li></ul>
     </div>
   </div>
 
@@ -171,6 +220,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2023/12/23/DesignAStackWithIncrementOperation/">LeetCode1381 - Design a Stack With Increment Operation</a>
+          </li>
         
           <li>
             <a href="/2023/10/21/ConstrainedSubsequenceSum/">LeetCode1425 - Constrained Subsequence Sum</a>
@@ -186,10 +239,6 @@
         
           <li>
             <a href="/2023/06/30/LastDayWhereYouCanStillCross/">LeetCode1970 - Last Day Where You Can Still Cross</a>
-          </li>
-        
-          <li>
-            <a href="/2023/06/25/Tallest%20Billboard/">LeetCode956 - Tallest Billboard</a>
           </li>
         
       </ul>
