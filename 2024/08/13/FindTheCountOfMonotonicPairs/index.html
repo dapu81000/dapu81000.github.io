@@ -4,21 +4,21 @@
   <meta charset="utf-8">
   
   
-  <title>LeetCode141 - Linked List Cycle | Phan Diary</title>
+  <title>FindTheCountOfMonotonicPairs | Phan Diary</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="Description給你一個linked list然後問你裡面有沒有cycle Solution1一開始的想法是直接開一個map紀錄出現過的pointer複雜度$O(nlogn)$ Submit Code123456789101112class Solution &amp;#123;public:    bool hasCycle(ListNode *head) &amp;#123;        map&amp;lt">
+  <meta name="description" content="Description給你一串數列$nums$，要把這串數列拆成兩組數列$arr1,arr2$，使得  $arr1[i]+arr2[i]&#x3D;nums[i], \forall i$ $arr1$為非遞減、非負數數列 $arr2$為非遞增、非負數數列  問你有幾種拆法，回傳模1e9+7的餘數 Solution蠻明顯的可以用動態規劃來解決，重點是要怎麼定義和轉移首先觀察到每個位置兩組數列的和是固定的，因此">
 <meta property="og:type" content="article">
-<meta property="og:title" content="LeetCode141 - Linked List Cycle">
-<meta property="og:url" content="http://example.com/2022/07/11/LinkedListCycle/index.html">
+<meta property="og:title" content="FindTheCountOfMonotonicPairs">
+<meta property="og:url" content="http://example.com/2024/08/13/FindTheCountOfMonotonicPairs/index.html">
 <meta property="og:site_name" content="Phan Diary">
-<meta property="og:description" content="Description給你一個linked list然後問你裡面有沒有cycle Solution1一開始的想法是直接開一個map紀錄出現過的pointer複雜度$O(nlogn)$ Submit Code123456789101112class Solution &amp;#123;public:    bool hasCycle(ListNode *head) &amp;#123;        map&amp;lt">
+<meta property="og:description" content="Description給你一串數列$nums$，要把這串數列拆成兩組數列$arr1,arr2$，使得  $arr1[i]+arr2[i]&#x3D;nums[i], \forall i$ $arr1$為非遞減、非負數數列 $arr2$為非遞增、非負數數列  問你有幾種拆法，回傳模1e9+7的餘數 Solution蠻明顯的可以用動態規劃來解決，重點是要怎麼定義和轉移首先觀察到每個位置兩組數列的和是固定的，因此">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2022-07-11T13:22:49.000Z">
-<meta property="article:modified_time" content="2022-08-11T06:59:42.707Z">
+<meta property="article:published_time" content="2024-08-13T04:10:28.000Z">
+<meta property="article:modified_time" content="2024-08-13T06:50:14.003Z">
 <meta property="article:author" content="dapu81000">
-<meta property="article:tag" content="easy">
-<meta property="article:tag" content="data structure">
-<meta property="article:tag" content="linked list">
+<meta property="article:tag" content="hard">
+<meta property="article:tag" content="monotonic">
+<meta property="article:tag" content="dp">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="Phan Diary" type="application/atom+xml">
@@ -78,10 +78,10 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-LinkedListCycle" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-FindTheCountOfMonotonicPairs" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2022/07/11/LinkedListCycle/" class="article-date">
-  <time class="dt-published" datetime="2022-07-11T13:22:49.000Z" itemprop="datePublished">2022-07-11</time>
+    <a href="/2024/08/13/FindTheCountOfMonotonicPairs/" class="article-date">
+  <time class="dt-published" datetime="2024-08-13T04:10:28.000Z" itemprop="datePublished">2024-08-13</time>
 </a>
     
   </div>
@@ -92,7 +92,7 @@
         
   
     <h1 class="p-name article-title" itemprop="headline name">
-      LeetCode141 - Linked List Cycle
+      FindTheCountOfMonotonicPairs
     </h1>
   
 
@@ -100,24 +100,33 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h2 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h2><p>給你一個linked list<br>然後問你裡面有沒有cycle</p>
-<h2 id="Solution1"><a href="#Solution1" class="headerlink" title="Solution1"></a>Solution1</h2><p>一開始的想法是直接開一個map紀錄出現過的pointer<br>複雜度$O(nlogn)$</p>
-<h3 id="Submit-Code"><a href="#Submit-Code" class="headerlink" title="Submit Code"></a>Submit Code</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">hasCycle</span><span class="params">(ListNode *head)</span> </span>&#123;</span><br><span class="line">        map&lt;ListNode*,<span class="type">bool</span>&gt; mp;</span><br><span class="line">        <span class="keyword">while</span>(head != <span class="literal">NULL</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(mp[head]) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            mp[head] = <span class="literal">true</span>; </span><br><span class="line">            head = head -&gt; next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h3 id="Performance"><a href="#Performance" class="headerlink" title="Performance"></a>Performance</h3><p>Runtime: <strong>29</strong> ms, faster than <strong>11.33%</strong> of C++ online submissions for Linked List Cycle.<br>Memory Usage: <strong>11.2</strong> MB, less than <strong>6.98%</strong> of C++ online submissions for Linked List Cycle.</p>
-<p>表現看起來很廢，不過還是過了<br>看起來應該有更好的解法<br>於是偷看了Discuss(x</p>
-<h2 id="Solution2"><a href="#Solution2" class="headerlink" title="Solution2"></a>Solution2</h2><p>很酷的解法<br>第一時間沒想到@@<br>不過很直觀<br>用兩個指標，這邊叫slow和fast<br>slow一次走一步，fast一次走兩步<br>如果有cycle，那他們一定會在一個時間點停在同一個點上，即slow=fast<br>沒有的話就會碰到null，然後跳出while loop<br>複雜度$O(n)$</p>
-<h3 id="Submit-Code-1"><a href="#Submit-Code-1" class="headerlink" title="Submit Code"></a>Submit Code</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">hasCycle</span><span class="params">(ListNode *head)</span> </span>&#123;</span><br><span class="line">        ListNode *slow, *fast;</span><br><span class="line">        slow = head, fast = head;</span><br><span class="line">        <span class="keyword">while</span>(slow &amp;&amp; fast &amp;&amp; fast-&gt;next)&#123;</span><br><span class="line">            slow = slow-&gt;next;</span><br><span class="line">            fast = fast-&gt;next-&gt;next;</span><br><span class="line">            <span class="keyword">if</span>(slow == fast) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h3 id="Performance-1"><a href="#Performance-1" class="headerlink" title="Performance"></a>Performance</h3><p>Runtime: <strong>14</strong> ms, faster than <strong>65.80%</strong> of C++ online submissions for Linked List Cycle.<br>Memory Usage: <strong>8.1</strong> MB, less than <strong>57.18%</strong> of C++ online submissions for Linked List Cycle.</p>
-<h3 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h3><p>原本看到easy覺得應該是ez了<br>不過丟出去發現performance有夠糟<br>又看到題目的hint寫說可以把memory弄到O(1)<br>沒啥想法就看了Discuss嗚嗚</p>
+        <h2 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h2><p>給你一串數列$nums$，要把這串數列拆成兩組數列$arr1,arr2$，使得</p>
+<ul>
+<li>$arr1[i]+arr2[i]=nums[i], \forall i$</li>
+<li>$arr1$為非遞減、非負數數列</li>
+<li>$arr2$為非遞增、非負數數列</li>
+</ul>
+<p>問你有幾種拆法，回傳模1e9+7的餘數</p>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>蠻明顯的可以用動態規劃來解決，重點是要怎麼定義和轉移<br>首先觀察到每個位置兩組數列的和是固定的，因此可以用一個維度存這個值</p>
+<p>我這邊定義 $dp[i][j]$ 為 $arr1[i]=j$ 的時候，前i個位置共有幾種組合<br>可以注意到的是，此時$arr2[i]=nums[i]-j$，因此我們要轉移時，有兩個case要考慮：</p>
+<ul>
+<li>$arr1$: 因為$arr1[i]=j$, 前一個數要小於等於$j$, 即dp[i-1][0~j] 可以轉移</li>
+<li>$arr2$: 因為$arr2[i]=nums[i]-j$, 前一個數要大於等於$nums[i]-j$, 即arr1的前一個數要小於等於$nums[i-1]-nums[i]+j$, 即dp[i-1][0~$nums[i-1]-nums[i]+j$]可以轉移</li>
+</ul>
+<p>將兩個case一起考慮，dp[i-1][0~$min(j, nums[i-1]-nums[i]+j)$]為可轉移<br>轉移方程式如下：<br>$dp[i][j] = sum(dp[i-1][k]), k{\in}[0,min(j,nums[i-1]-nums[i]+j)]$<br>最後要求得答案為 $sum(dp[n-1][i]), \forall i$</p>
+<p>假設 $nums[i] \le m$<br>則時間複雜度為$O(nm^2)$<br>總和的部分可以用前綴和來加速<br>時間複雜度變成$O(nm)$</p>
+<p>空間複雜度則為$O(nm)$<br>因狀態轉移時僅考慮前一個位置的狀態，即可以壓掉一個$O(n)$的複雜度<br>空間複雜度則來到$O(m)$</p>
+<h3 id="Submit-Code"><a href="#Submit-Code" class="headerlink" title="Submit Code"></a>Submit Code</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="type">int</span> dp[<span class="number">2</span>][<span class="number">1001</span>] = &#123;&#125;;</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> mod = <span class="number">1e9</span>+<span class="number">7</span>;</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">countOfPairs</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n = nums.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;=nums[<span class="number">0</span>];i++) dp[<span class="number">0</span>][i] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;n;i++)&#123;</span><br><span class="line">            <span class="type">int</span> cur = (i&amp;<span class="number">1</span>), prev = cur^<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">1</span>;j&lt;=nums[i<span class="number">-1</span>];j++)&#123;</span><br><span class="line">                dp[prev][j] += dp[prev][j<span class="number">-1</span>];</span><br><span class="line">                dp[prev][j] %= mod;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;=nums[i];j++)&#123;</span><br><span class="line">                dp[cur][j] = <span class="number">0</span>;</span><br><span class="line">                <span class="comment">// arr1 - 0~j</span></span><br><span class="line">                <span class="comment">// arr2 - nums[i-1]~nums[i-1]-j</span></span><br><span class="line">                <span class="keyword">if</span>(nums[i]-j&gt;nums[i<span class="number">-1</span>]) <span class="keyword">continue</span>;</span><br><span class="line">                <span class="type">int</span> id = <span class="built_in">min</span>(j,nums[i<span class="number">-1</span>]-nums[i]+j);</span><br><span class="line">                dp[cur][j] = dp[prev][id];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span> id = (n<span class="number">-1</span>)&amp;<span class="number">1</span>, res = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;=nums[n<span class="number">-1</span>];i++)&#123;</span><br><span class="line">            res += dp[id][i];</span><br><span class="line">            res %= mod;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>有發現上面說的點的話應該就不難想出來這個解法(?)<br>整體算median-hard啦，算轉移範圍那邊一開始有卡住一下下</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/07/11/LinkedListCycle/" data-id="clob1e1bv0005k97acs0f2qgc" data-title="LeetCode141 - Linked List Cycle" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2024/08/13/FindTheCountOfMonotonicPairs/" data-id="clzrwn12o0000rln90t3se5up" data-title="FindTheCountOfMonotonicPairs" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/data-structure/" rel="tag">data structure</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/easy/" rel="tag">easy</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linked-list/" rel="tag">linked list</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/dp/" rel="tag">dp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hard/" rel="tag">hard</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/monotonic/" rel="tag">monotonic</a></li></ul>
 
     </footer>
   </div>
@@ -125,19 +134,19 @@
     
 <nav id="article-nav">
   
-    <a href="/2022/08/11/SubarrayWithElementsGreaterThanVaryingThreshold/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2024/08/13/MinimumNumberOfDaysToDisconnectIsland/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          LeetCode2334 - Subarray With Elements Greater Than Varying Threshold
+          MinimumNumberOfDaysToDisconnectIsland
         
       </div>
     </a>
   
   
-    <a href="/2022/07/08/PaintHouseIII/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2023/12/23/DesignAStackWithIncrementOperation/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">LeetCode1473 - Paint House III</div>
+      <div class="article-nav-title">LeetCode1381 - Design a Stack With Increment Operation</div>
     </a>
   
 </nav>

@@ -73,6 +73,111 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-MinimumNumberOfDaysToDisconnectIsland" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2024/08/13/MinimumNumberOfDaysToDisconnectIsland/" class="article-date">
+  <time class="dt-published" datetime="2024-08-13T04:44:24.000Z" itemprop="datePublished">2024-08-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2024/08/13/MinimumNumberOfDaysToDisconnectIsland/">MinimumNumberOfDaysToDisconnectIsland</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h2><p>給你一個$n \times m$的矩陣，0代表海洋，1代表陸地<br>定義一個陸地的連通為上下左右四個方向，問你最少做幾個1-&gt;0的操作使得圖上的陸地都不連通</p>
+<h2 id="Solution1"><a href="#Solution1" class="headerlink" title="Solution1"></a>Solution1</h2><p>觀察一下可以發現，答案會只有0,1,2三種<br>check圖上的陸地有沒有連通，複雜度為$O(nm)$<br>若暴力枚舉所有可能的話，整體的複雜度為<br>$O(nm)$ + $O(nm \times nm)$ + $O(\binom{nm}{2}\times nm)$<br>但因為2不用特別去確認，因為不是0,1的話就是2<br>所以複雜度是$O(n^2m^2)$</p>
+<h2 id="Solution2"><a href="#Solution2" class="headerlink" title="Solution2"></a>Solution2</h2><p>換個角度想，把問題轉換成圖論上的問題<br>上下左右的連通，可以想像成是邊的存在<br>即每個陸地格子代表圖上的一個點，點和點之間有邊的話表示兩個點相鄰<br>題目的需求變成拿掉最少的點，使得圖不連通</p>
+<p>因為我們知道，點數只有0,1,2三種，而0可以透過dfs直接check，即一開始就沒連通<br>接下來是點數是1的case，可以發現說，如果只拿掉一個點就不連通，那就代表這個點是關節點(articulation point)，那我們可以透過遍歷dfs樹的tree-edge和back-edge來更新每個點的dfs time以及最高可以爬到的祖先時間(low)，如果遍歷完當前點的子孫，如果發現子孫可以透過back-edge爬到的點比自己更高，表示該點並不是關節點，反之則是關節點，因為我拿掉這個點的話，下面的子孫就爬不到上面了。根節點的話則是要另外判斷，如果子孫數大於等於2則是關節點。</p>
+<p>整體複雜度是$O(nm)$</p>
+<h3 id="Submit-Code"><a href="#Submit-Code" class="headerlink" title="Submit Code"></a>Submit Code</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    vector&lt;<span class="type">int</span>&gt; G[<span class="number">1001</span>];</span><br><span class="line">    <span class="type">int</span> n,m;</span><br><span class="line">    <span class="type">bool</span> visit[<span class="number">33</span>][<span class="number">33</span>] = &#123;&#125;;</span><br><span class="line">    <span class="type">int</span> dir[<span class="number">4</span>][<span class="number">2</span>] = &#123;<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">-1</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">-1</span>,<span class="number">0</span>&#125;;</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">dfs</span><span class="params">(<span class="type">int</span> x,<span class="type">int</span> y,vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; &amp;grid)</span></span>&#123;</span><br><span class="line">        visit[x][y] = <span class="literal">true</span>;</span><br><span class="line">        <span class="type">int</span> res = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++)&#123;</span><br><span class="line">            <span class="type">int</span> xx = x+dir[i][<span class="number">0</span>], yy = y+dir[i][<span class="number">1</span>];</span><br><span class="line">            <span class="keyword">if</span>(xx&gt;=n || yy&gt;=m || xx&lt;<span class="number">0</span> || yy&lt;<span class="number">0</span>) <span class="keyword">continue</span>;</span><br><span class="line">            <span class="keyword">if</span>(visit[xx][yy] || !grid[xx][yy]) <span class="keyword">continue</span>;</span><br><span class="line">            res += <span class="built_in">dfs</span>(xx,yy,grid);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> low[<span class="number">1001</span>], dfn[<span class="number">1001</span>] = &#123;&#125;, tim;</span><br><span class="line">    <span class="type">bool</span> ap = <span class="literal">false</span>;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">dfs2</span><span class="params">(<span class="type">int</span> cur,<span class="type">int</span> par)</span></span>&#123;</span><br><span class="line">        dfn[cur] = low[cur] = ++tim;</span><br><span class="line">        <span class="type">bool</span> isap = <span class="literal">false</span>;</span><br><span class="line">        <span class="type">int</span> ch = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> nxt:G[cur])&#123;</span><br><span class="line">            <span class="keyword">if</span>(nxt==par) <span class="keyword">continue</span>;</span><br><span class="line">            <span class="keyword">if</span>(!dfn[nxt])&#123;</span><br><span class="line">                <span class="built_in">dfs2</span>(nxt,cur);</span><br><span class="line">                ch++;</span><br><span class="line">                low[cur] = <span class="built_in">min</span>(low[cur], low[nxt]);</span><br><span class="line">                <span class="keyword">if</span>(low[nxt]&gt;=dfn[cur]) isap = <span class="literal">true</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span> low[cur] = <span class="built_in">min</span>(low[cur], dfn[nxt]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(cur==par)&#123;</span><br><span class="line">            <span class="keyword">if</span>(ch&gt;=<span class="number">2</span>) ap = <span class="literal">true</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(isap) ap = <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">minDays</span><span class="params">(vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; grid)</span> </span>&#123;</span><br><span class="line">        n = grid.<span class="built_in">size</span>(), m = grid[<span class="number">0</span>].<span class="built_in">size</span>();</span><br><span class="line">        <span class="type">int</span> cc = <span class="number">0</span>, tmp;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;m;j++)&#123;</span><br><span class="line">                <span class="keyword">if</span>(!visit[i][j] &amp;&amp; grid[i][j])&#123;</span><br><span class="line">                    cc++;</span><br><span class="line">                    tmp = <span class="built_in">dfs</span>(i,j,grid);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(cc!=<span class="number">1</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span>(tmp&lt;=<span class="number">2</span>) <span class="keyword">return</span> tmp;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;m;j++)&#123;</span><br><span class="line">                <span class="keyword">if</span>(grid[i][j])&#123;</span><br><span class="line">                    <span class="keyword">if</span>(i+<span class="number">1</span>&lt;n &amp;&amp; grid[i+<span class="number">1</span>][j])&#123;</span><br><span class="line">                        <span class="type">int</span> u = i*m+j, v = (i+<span class="number">1</span>)*m+j;</span><br><span class="line">                        G[u].<span class="built_in">push_back</span>(v);</span><br><span class="line">                        G[v].<span class="built_in">push_back</span>(u);</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">if</span>(j+<span class="number">1</span>&lt;m &amp;&amp; grid[i][j+<span class="number">1</span>])&#123;</span><br><span class="line">                        <span class="type">int</span> u = i*m+j, v = i*m+j+<span class="number">1</span>;</span><br><span class="line">                        G[u].<span class="built_in">push_back</span>(v);</span><br><span class="line">                        G[v].<span class="built_in">push_back</span>(u);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        tim=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;m;j++)&#123;</span><br><span class="line">                <span class="keyword">if</span>(!dfn[i*m+j] &amp;&amp; grid[i][j])&#123;</span><br><span class="line">                    <span class="built_in">dfs2</span>(i*m+j, i*m+j);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(ap) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>leetcode好像比較少出現這種圖論的問題，雖然我很常要用的時候會忘記一些細節，但是大概知道要用哪種算法做XD<br>整體算medium啦，主要是要先觀察出答案只有三種，接下來其實用如solution1的方式就做得出來了，而且實作難度也不高，要壓複雜度的話就寫solution2</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2024/08/13/MinimumNumberOfDaysToDisconnectIsland/" data-id="clzrxukk200007sn9htjocl0y" data-title="MinimumNumberOfDaysToDisconnectIsland" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DFS/" rel="tag">DFS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/graph/" rel="tag">graph</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hard/" rel="tag">hard</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-FindTheCountOfMonotonicPairs" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2024/08/13/FindTheCountOfMonotonicPairs/" class="article-date">
+  <time class="dt-published" datetime="2024-08-13T04:10:28.000Z" itemprop="datePublished">2024-08-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2024/08/13/FindTheCountOfMonotonicPairs/">FindTheCountOfMonotonicPairs</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h2><p>給你一串數列$nums$，要把這串數列拆成兩組數列$arr1,arr2$，使得</p>
+<ul>
+<li>$arr1[i]+arr2[i]=nums[i], \forall i$</li>
+<li>$arr1$為非遞減、非負數數列</li>
+<li>$arr2$為非遞增、非負數數列</li>
+</ul>
+<p>問你有幾種拆法，回傳模1e9+7的餘數</p>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>蠻明顯的可以用動態規劃來解決，重點是要怎麼定義和轉移<br>首先觀察到每個位置兩組數列的和是固定的，因此可以用一個維度存這個值</p>
+<p>我這邊定義 $dp[i][j]$ 為 $arr1[i]=j$ 的時候，前i個位置共有幾種組合<br>可以注意到的是，此時$arr2[i]=nums[i]-j$，因此我們要轉移時，有兩個case要考慮：</p>
+<ul>
+<li>$arr1$: 因為$arr1[i]=j$, 前一個數要小於等於$j$, 即dp[i-1][0~j] 可以轉移</li>
+<li>$arr2$: 因為$arr2[i]=nums[i]-j$, 前一個數要大於等於$nums[i]-j$, 即arr1的前一個數要小於等於$nums[i-1]-nums[i]+j$, 即dp[i-1][0~$nums[i-1]-nums[i]+j$]可以轉移</li>
+</ul>
+<p>將兩個case一起考慮，dp[i-1][0~$min(j, nums[i-1]-nums[i]+j)$]為可轉移<br>轉移方程式如下：<br>$dp[i][j] = sum(dp[i-1][k]), k{\in}[0,min(j,nums[i-1]-nums[i]+j)]$<br>最後要求得答案為 $sum(dp[n-1][i]), \forall i$</p>
+<p>假設 $nums[i] \le m$<br>則時間複雜度為$O(nm^2)$<br>總和的部分可以用前綴和來加速<br>時間複雜度變成$O(nm)$</p>
+<p>空間複雜度則為$O(nm)$<br>因狀態轉移時僅考慮前一個位置的狀態，即可以壓掉一個$O(n)$的複雜度<br>空間複雜度則來到$O(m)$</p>
+<h3 id="Submit-Code"><a href="#Submit-Code" class="headerlink" title="Submit Code"></a>Submit Code</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="type">int</span> dp[<span class="number">2</span>][<span class="number">1001</span>] = &#123;&#125;;</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> mod = <span class="number">1e9</span>+<span class="number">7</span>;</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">countOfPairs</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n = nums.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;=nums[<span class="number">0</span>];i++) dp[<span class="number">0</span>][i] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;n;i++)&#123;</span><br><span class="line">            <span class="type">int</span> cur = (i&amp;<span class="number">1</span>), prev = cur^<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">1</span>;j&lt;=nums[i<span class="number">-1</span>];j++)&#123;</span><br><span class="line">                dp[prev][j] += dp[prev][j<span class="number">-1</span>];</span><br><span class="line">                dp[prev][j] %= mod;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;=nums[i];j++)&#123;</span><br><span class="line">                dp[cur][j] = <span class="number">0</span>;</span><br><span class="line">                <span class="comment">// arr1 - 0~j</span></span><br><span class="line">                <span class="comment">// arr2 - nums[i-1]~nums[i-1]-j</span></span><br><span class="line">                <span class="keyword">if</span>(nums[i]-j&gt;nums[i<span class="number">-1</span>]) <span class="keyword">continue</span>;</span><br><span class="line">                <span class="type">int</span> id = <span class="built_in">min</span>(j,nums[i<span class="number">-1</span>]-nums[i]+j);</span><br><span class="line">                dp[cur][j] = dp[prev][id];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span> id = (n<span class="number">-1</span>)&amp;<span class="number">1</span>, res = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;=nums[n<span class="number">-1</span>];i++)&#123;</span><br><span class="line">            res += dp[id][i];</span><br><span class="line">            res %= mod;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>有發現上面說的點的話應該就不難想出來這個解法(?)<br>整體算median-hard啦，算轉移範圍那邊一開始有卡住一下下</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2024/08/13/FindTheCountOfMonotonicPairs/" data-id="clzrwn12o0000rln90t3se5up" data-title="FindTheCountOfMonotonicPairs" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/dp/" rel="tag">dp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hard/" rel="tag">hard</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/monotonic/" rel="tag">monotonic</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-DesignAStackWithIncrementOperation" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2023/12/23/DesignAStackWithIncrementOperation/" class="article-date">
@@ -461,103 +566,6 @@
 
 
   
-    <article id="post-LinkedListCycle" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2022/07/11/LinkedListCycle/" class="article-date">
-  <time class="dt-published" datetime="2022-07-11T13:22:49.000Z" itemprop="datePublished">2022-07-11</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/07/11/LinkedListCycle/">LeetCode141 - Linked List Cycle</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h2><p>給你一個linked list<br>然後問你裡面有沒有cycle</p>
-<h2 id="Solution1"><a href="#Solution1" class="headerlink" title="Solution1"></a>Solution1</h2><p>一開始的想法是直接開一個map紀錄出現過的pointer<br>複雜度$O(nlogn)$</p>
-<h3 id="Submit-Code"><a href="#Submit-Code" class="headerlink" title="Submit Code"></a>Submit Code</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">hasCycle</span><span class="params">(ListNode *head)</span> </span>&#123;</span><br><span class="line">        map&lt;ListNode*,<span class="type">bool</span>&gt; mp;</span><br><span class="line">        <span class="keyword">while</span>(head != <span class="literal">NULL</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(mp[head]) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            mp[head] = <span class="literal">true</span>; </span><br><span class="line">            head = head -&gt; next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h3 id="Performance"><a href="#Performance" class="headerlink" title="Performance"></a>Performance</h3><p>Runtime: <strong>29</strong> ms, faster than <strong>11.33%</strong> of C++ online submissions for Linked List Cycle.<br>Memory Usage: <strong>11.2</strong> MB, less than <strong>6.98%</strong> of C++ online submissions for Linked List Cycle.</p>
-<p>表現看起來很廢，不過還是過了<br>看起來應該有更好的解法<br>於是偷看了Discuss(x</p>
-<h2 id="Solution2"><a href="#Solution2" class="headerlink" title="Solution2"></a>Solution2</h2><p>很酷的解法<br>第一時間沒想到@@<br>不過很直觀<br>用兩個指標，這邊叫slow和fast<br>slow一次走一步，fast一次走兩步<br>如果有cycle，那他們一定會在一個時間點停在同一個點上，即slow=fast<br>沒有的話就會碰到null，然後跳出while loop<br>複雜度$O(n)$</p>
-<h3 id="Submit-Code-1"><a href="#Submit-Code-1" class="headerlink" title="Submit Code"></a>Submit Code</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">hasCycle</span><span class="params">(ListNode *head)</span> </span>&#123;</span><br><span class="line">        ListNode *slow, *fast;</span><br><span class="line">        slow = head, fast = head;</span><br><span class="line">        <span class="keyword">while</span>(slow &amp;&amp; fast &amp;&amp; fast-&gt;next)&#123;</span><br><span class="line">            slow = slow-&gt;next;</span><br><span class="line">            fast = fast-&gt;next-&gt;next;</span><br><span class="line">            <span class="keyword">if</span>(slow == fast) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h3 id="Performance-1"><a href="#Performance-1" class="headerlink" title="Performance"></a>Performance</h3><p>Runtime: <strong>14</strong> ms, faster than <strong>65.80%</strong> of C++ online submissions for Linked List Cycle.<br>Memory Usage: <strong>8.1</strong> MB, less than <strong>57.18%</strong> of C++ online submissions for Linked List Cycle.</p>
-<h3 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h3><p>原本看到easy覺得應該是ez了<br>不過丟出去發現performance有夠糟<br>又看到題目的hint寫說可以把memory弄到O(1)<br>沒啥想法就看了Discuss嗚嗚</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2022/07/11/LinkedListCycle/" data-id="clob1e1bv0005k97acs0f2qgc" data-title="LeetCode141 - Linked List Cycle" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/data-structure/" rel="tag">data structure</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/easy/" rel="tag">easy</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linked-list/" rel="tag">linked list</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-PaintHouseIII" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2022/07/08/PaintHouseIII/" class="article-date">
-  <time class="dt-published" datetime="2022-07-08T05:56:06.000Z" itemprop="datePublished">2022-07-08</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/07/08/PaintHouseIII/">LeetCode1473 - Paint House III</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h2><p>大意是有一排房子，然後上漆要錢<br>定義一坨鄰居為連續的房子，然後漆同樣的顏色<br>問你有沒有辦法弄出$target$坨鄰居，然後花費要最小</p>
-<p>然後一排房子$m$個，總共$n$種顏色的漆<br>限制大概長這樣<br>$n{\leq}20,m{\leq}100,target{\leq}m$</p>
-<p>大概可以想到$O(nm^2)$的DP<br>空間也還夠用</p>
-<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>定義一下$dp[i][j][k]$<br>$dp[i][j][k]$是在前$k$個房子中，第$k$個房子漆上顏色$j$，然後共有$i$坨鄰居的最小花費</p>
-<p>dp有兩種轉移<br>一種是從$i-1$坨，然後跟前一棟不同顏色轉移過來的<br>另一種是$i$坨，然後跟前一棟同一種顏色<br>轉移式大概長這樣<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dp[i][j][k] = <span class="built_in">min</span>(<span class="built_in">min</span>(dp[i<span class="number">-1</span>][l][k<span class="number">-1</span>] <span class="keyword">for</span> all l!=j), dp[i][j][k<span class="number">-1</span>]) + cost[k][j];</span><br></pre></td></tr></table></figure><br>最後注意一下題目限制，例如已經漆過的就不能再換顏色<br>差不多就弄出來了</p>
-<h3 id="Submit-Code"><a href="#Submit-Code" class="headerlink" title="Submit Code"></a>Submit Code</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">minCost</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; houses, vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; cost, <span class="type">int</span> m, <span class="type">int</span> n, <span class="type">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> dp[<span class="number">101</span>][<span class="number">21</span>][<span class="number">101</span>];</span><br><span class="line">        <span class="built_in">memset</span>(dp,<span class="number">0x3f</span>,<span class="keyword">sizeof</span> dp);</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;=n;i++) dp[<span class="number">0</span>][i][<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=target;i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">1</span>;j&lt;=n;j++)&#123;</span><br><span class="line">                <span class="keyword">for</span>(<span class="type">int</span> k=<span class="number">1</span>;k&lt;=m;k++)&#123;</span><br><span class="line">                    <span class="keyword">if</span>(houses[k<span class="number">-1</span>] &amp;&amp; houses[k<span class="number">-1</span>] != j)&#123;</span><br><span class="line">                        <span class="keyword">continue</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="type">int</span> mn = <span class="number">0x3f3f3f3f</span>;</span><br><span class="line">                    <span class="keyword">for</span>(<span class="type">int</span> l=<span class="number">1</span>;l&lt;=n;l++)&#123;</span><br><span class="line">                        <span class="keyword">if</span>(l==j) <span class="keyword">continue</span>;</span><br><span class="line">                        mn = <span class="built_in">min</span>(mn, dp[i<span class="number">-1</span>][l][k<span class="number">-1</span>]);</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">if</span>(houses[k<span class="number">-1</span>] == j)</span><br><span class="line">                        dp[i][j][k] = <span class="built_in">min</span>(mn, dp[i][j][k<span class="number">-1</span>]);</span><br><span class="line">                    <span class="keyword">else</span> </span><br><span class="line">                        dp[i][j][k] = <span class="built_in">min</span>(mn, dp[i][j][k<span class="number">-1</span>]) + cost[k<span class="number">-1</span>][j<span class="number">-1</span>];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span> ans = <span class="number">0x3f3f3f3f</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++) ans = <span class="built_in">min</span>(ans, dp[target][i][m]);</span><br><span class="line">        <span class="keyword">if</span>(ans == <span class="number">0x3f3f3f3f</span>) <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h3 id="Performance"><a href="#Performance" class="headerlink" title="Performance"></a>Performance</h3><p>Runtime: <strong>100</strong> ms, faster than <strong>72.87%</strong> of C++ online submissions for Paint House III.<br>Memory Usage: <strong>10.8</strong> MB, less than <strong>77.13%</strong> of C++ online submissions for Paint House III.</p>
-<h3 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h3><p>其實這題的轉移還不難想，不過被歸類到hard了，體感應該是medium啦<br>後來偷看了一下別人的，複雜度好像都一樣，好像沒有比較優的(?<br>有差的應該就是空間了，好像可以再壓，不過我懶的壓XD</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2022/07/08/PaintHouseIII/" data-id="clob1e1bw0008k97a68qi50al" data-title="LeetCode1473 - Paint House III" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/dp/" rel="tag">dp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hard/" rel="tag">hard</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -576,7 +584,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/BFS/" rel="tag">BFS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/array/" rel="tag">array</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/binary-search/" rel="tag">binary search</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bitwise/" rel="tag">bitwise</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/data-structure/" rel="tag">data structure</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/disjoint-set/" rel="tag">disjoint set</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dp/" rel="tag">dp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/easy/" rel="tag">easy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/greedy/" rel="tag">greedy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hard/" rel="tag">hard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/interview/" rel="tag">interview</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linked-list/" rel="tag">linked list</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/math/" rel="tag">math</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/medium/" rel="tag">medium</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/monotonic/" rel="tag">monotonic</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/monotonic-stack/" rel="tag">monotonic stack</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/powmod/" rel="tag">powmod</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/BFS/" rel="tag">BFS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DFS/" rel="tag">DFS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/array/" rel="tag">array</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/binary-search/" rel="tag">binary search</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bitwise/" rel="tag">bitwise</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/data-structure/" rel="tag">data structure</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/disjoint-set/" rel="tag">disjoint set</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dp/" rel="tag">dp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/easy/" rel="tag">easy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/graph/" rel="tag">graph</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/greedy/" rel="tag">greedy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hard/" rel="tag">hard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/interview/" rel="tag">interview</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linked-list/" rel="tag">linked list</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/math/" rel="tag">math</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/medium/" rel="tag">medium</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/monotonic/" rel="tag">monotonic</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/monotonic-stack/" rel="tag">monotonic stack</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/powmod/" rel="tag">powmod</a></li></ul>
     </div>
   </div>
 
@@ -586,7 +594,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/BFS/" style="font-size: 10px;">BFS</a> <a href="/tags/array/" style="font-size: 10px;">array</a> <a href="/tags/binary-search/" style="font-size: 10px;">binary search</a> <a href="/tags/bitwise/" style="font-size: 10px;">bitwise</a> <a href="/tags/data-structure/" style="font-size: 10px;">data structure</a> <a href="/tags/disjoint-set/" style="font-size: 10px;">disjoint set</a> <a href="/tags/dp/" style="font-size: 17.5px;">dp</a> <a href="/tags/easy/" style="font-size: 10px;">easy</a> <a href="/tags/greedy/" style="font-size: 12.5px;">greedy</a> <a href="/tags/hard/" style="font-size: 20px;">hard</a> <a href="/tags/interview/" style="font-size: 10px;">interview</a> <a href="/tags/linked-list/" style="font-size: 10px;">linked list</a> <a href="/tags/math/" style="font-size: 10px;">math</a> <a href="/tags/medium/" style="font-size: 15px;">medium</a> <a href="/tags/monotonic/" style="font-size: 12.5px;">monotonic</a> <a href="/tags/monotonic-stack/" style="font-size: 10px;">monotonic stack</a> <a href="/tags/powmod/" style="font-size: 10px;">powmod</a>
+      <a href="/tags/BFS/" style="font-size: 10px;">BFS</a> <a href="/tags/DFS/" style="font-size: 10px;">DFS</a> <a href="/tags/array/" style="font-size: 10px;">array</a> <a href="/tags/binary-search/" style="font-size: 10px;">binary search</a> <a href="/tags/bitwise/" style="font-size: 10px;">bitwise</a> <a href="/tags/data-structure/" style="font-size: 10px;">data structure</a> <a href="/tags/disjoint-set/" style="font-size: 10px;">disjoint set</a> <a href="/tags/dp/" style="font-size: 18px;">dp</a> <a href="/tags/easy/" style="font-size: 10px;">easy</a> <a href="/tags/graph/" style="font-size: 10px;">graph</a> <a href="/tags/greedy/" style="font-size: 12px;">greedy</a> <a href="/tags/hard/" style="font-size: 20px;">hard</a> <a href="/tags/interview/" style="font-size: 10px;">interview</a> <a href="/tags/linked-list/" style="font-size: 10px;">linked list</a> <a href="/tags/math/" style="font-size: 10px;">math</a> <a href="/tags/medium/" style="font-size: 16px;">medium</a> <a href="/tags/monotonic/" style="font-size: 14px;">monotonic</a> <a href="/tags/monotonic-stack/" style="font-size: 10px;">monotonic stack</a> <a href="/tags/powmod/" style="font-size: 10px;">powmod</a>
     </div>
   </div>
 
@@ -595,7 +603,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/12/">December 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/10/">October 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/08/">August 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/07/">July 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">August 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/12/">December 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/10/">October 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/08/">August 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/07/">July 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a></li></ul>
     </div>
   </div>
 
@@ -608,6 +616,14 @@
       <ul>
         
           <li>
+            <a href="/2024/08/13/MinimumNumberOfDaysToDisconnectIsland/">MinimumNumberOfDaysToDisconnectIsland</a>
+          </li>
+        
+          <li>
+            <a href="/2024/08/13/FindTheCountOfMonotonicPairs/">FindTheCountOfMonotonicPairs</a>
+          </li>
+        
+          <li>
             <a href="/2023/12/23/DesignAStackWithIncrementOperation/">LeetCode1381 - Design a Stack With Increment Operation</a>
           </li>
         
@@ -617,14 +633,6 @@
         
           <li>
             <a href="/2023/08/15/ApplyOperationsToMaximizeScore/">LeetCode2818 - Apply Operations to Maximize Score</a>
-          </li>
-        
-          <li>
-            <a href="/2023/07/04/SingleNumberII/">LeetCode137 - Single Number II</a>
-          </li>
-        
-          <li>
-            <a href="/2023/06/30/LastDayWhereYouCanStillCross/">LeetCode1970 - Last Day Where You Can Still Cross</a>
           </li>
         
       </ul>
@@ -640,7 +648,7 @@
   <div class="outer">
     <div id="footer-info" class="inner">
       
-      &copy; 2023 dapu81000<br>
+      &copy; 2024 dapu81000<br>
       Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
