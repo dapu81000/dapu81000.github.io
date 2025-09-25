@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>LeetCode3691 - Maximum Total Subarray Value II | Phan Diary</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Description給你一個整數陣列$nums$，長度為$n$，以及整數$k$，定義一個子陣列 $nums[l…r]$ 的值為 $max(nums[l…r]) - min(nums[l…r])$題目要求k個不完全重疊的子陣列的值的最大和(完全重疊 &#x3D;&gt; 左右端點都一樣) Solution觀察後可以發現，當我們固定子陣列的左端點時，假設為 $l$，則右端點為$l,l+1,…,n-1,n$時，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LeetCode3691 - Maximum Total Subarray Value II">
+<meta property="og:url" content="http://example.com/2025/09/25/MaximumTotalSubarrayValueII/index.html">
+<meta property="og:site_name" content="Phan Diary">
+<meta property="og:description" content="Description給你一個整數陣列$nums$，長度為$n$，以及整數$k$，定義一個子陣列 $nums[l…r]$ 的值為 $max(nums[l…r]) - min(nums[l…r])$題目要求k個不完全重疊的子陣列的值的最大和(完全重疊 &#x3D;&gt; 左右端點都一樣) Solution觀察後可以發現，當我們固定子陣列的左端點時，假設為 $l$，則右端點為$l,l+1,…,n-1,n$時，">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-09-25T05:39:30.000Z">
+<meta property="article:modified_time" content="2025-09-25T07:02:12.481Z">
+<meta property="article:author" content="dapu81000">
+<meta property="article:tag" content="hard">
+<meta property="article:tag" content="monotonic">
+<meta property="article:tag" content="dp">
+<meta property="article:tag" content="binary search">
+<meta property="article:tag" content="heap">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Phan Diary" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Phan Diary</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-MaximumTotalSubarrayValueII" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/09/25/MaximumTotalSubarrayValueII/" class="article-date">
+  <time class="dt-published" datetime="2025-09-25T05:39:30.000Z" itemprop="datePublished">2025-09-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      LeetCode3691 - Maximum Total Subarray Value II
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h2><p>給你一個整數陣列$nums$，長度為$n$，以及整數$k$，<br>定義一個子陣列 $nums[l…r]$ 的值為 $max(nums[l…r]) - min(nums[l…r])$<br>題目要求k個不完全重疊的子陣列的值的最大和<br>(完全重疊 =&gt; 左右端點都一樣)</p>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>觀察後可以發現，當我們固定子陣列的左端點時，假設為 $l$，則右端點為$l,l+1,…,n-1,n$時，這些值會是遞增的數列<br>基於這個性質，我們可以用一個max heap存值與當前左右界，假設為 $[l,r]$，接著再將下一個區間 $[l,r-1]$ 的資訊加入max heap中，然後找k次，就得到答案了<br>將區間加入max heap時，我們需要知道當前區間的值(最大減最小)，這部分則是可以用兩顆線段樹來維護(最大、最小)<br>整體的時間複雜度是 $O(k \log{n} \log{n})$，且 $k \leq min(10^5, \frac{n*(n+1)}{2})$</p>
+<h2 id="Submit-Code"><a href="#Submit-Code" class="headerlink" title="Submit Code"></a>Submit Code</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="type">int</span> b[<span class="number">2</span>][<span class="number">50001</span>&lt;&lt;<span class="number">2</span>];</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">build</span><span class="params">(<span class="type">int</span> l,<span class="type">int</span> r,<span class="type">int</span> idx, vector&lt;<span class="type">int</span>&gt; &amp;nums)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(l==r)&#123;</span><br><span class="line">            b[<span class="number">0</span>][idx] = b[<span class="number">1</span>][idx] = nums[l];</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span> m = (l+r)&gt;&gt;<span class="number">1</span>;</span><br><span class="line">        <span class="built_in">build</span>(l,m,idx&lt;&lt;<span class="number">1</span>,nums);</span><br><span class="line">        <span class="built_in">build</span>(m+<span class="number">1</span>,r,idx&lt;&lt;<span class="number">1</span>|<span class="number">1</span>,nums);</span><br><span class="line">        b[<span class="number">0</span>][idx] = <span class="built_in">max</span>(b[<span class="number">0</span>][idx&lt;&lt;<span class="number">1</span>], b[<span class="number">0</span>][idx&lt;&lt;<span class="number">1</span>|<span class="number">1</span>]);</span><br><span class="line">        b[<span class="number">1</span>][idx] = <span class="built_in">min</span>(b[<span class="number">1</span>][idx&lt;&lt;<span class="number">1</span>], b[<span class="number">1</span>][idx&lt;&lt;<span class="number">1</span>|<span class="number">1</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">#<span class="keyword">define</span> pii pair<span class="string">&lt;int,int&gt;</span></span></span><br><span class="line">    <span class="function">pii <span class="title">query</span><span class="params">(<span class="type">int</span> l,<span class="type">int</span> r,<span class="type">int</span> idx,<span class="type">int</span> ql,<span class="type">int</span> qr)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(ql&lt;=l &amp;&amp; r&lt;=qr)&#123;</span><br><span class="line">            <span class="keyword">return</span> &#123;b[<span class="number">0</span>][idx], b[<span class="number">1</span>][idx]&#125;;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span> m = (l+r)&gt;&gt;<span class="number">1</span>;</span><br><span class="line">        pii res = &#123;INT_MIN, INT_MAX&#125;;</span><br><span class="line">        <span class="keyword">if</span>(ql&lt;=m)&#123;</span><br><span class="line">            pii tmp = <span class="built_in">query</span>(l,m,idx&lt;&lt;<span class="number">1</span>,ql,qr);</span><br><span class="line">            res.first = <span class="built_in">max</span>(res.first, tmp.first);</span><br><span class="line">            res.second = <span class="built_in">min</span>(res.second, tmp.second);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(m&lt; qr)&#123;</span><br><span class="line">            pii tmp = <span class="built_in">query</span>(m+<span class="number">1</span>,r,idx&lt;&lt;<span class="number">1</span>|<span class="number">1</span>,ql,qr);</span><br><span class="line">            res.first = <span class="built_in">max</span>(res.first, tmp.first);</span><br><span class="line">            res.second = <span class="built_in">min</span>(res.second, tmp.second);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">long</span> <span class="type">long</span> <span class="title">maxTotalValue</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> k)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n = nums.<span class="built_in">size</span>();</span><br><span class="line">        <span class="built_in">build</span>(<span class="number">0</span>,n<span class="number">-1</span>,<span class="number">1</span>, nums);</span><br><span class="line"></span><br><span class="line">        priority_queue&lt;tuple&lt;<span class="type">int</span>,<span class="type">int</span>,<span class="type">int</span>&gt;&gt; pq;</span><br><span class="line">        <span class="type">int</span> curmx = INT_MIN, curmn = INT_MAX;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=n<span class="number">-1</span>;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">            curmx = <span class="built_in">max</span>(curmx, nums[i]);</span><br><span class="line">            curmn = <span class="built_in">min</span>(curmn, nums[i]);</span><br><span class="line">            pq.<span class="built_in">push</span>(&#123;curmx-curmn, i, n<span class="number">-1</span>&#125;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">long</span> <span class="type">long</span> ans = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(!pq.<span class="built_in">empty</span>() &amp;&amp; k)&#123;</span><br><span class="line">            tuple&lt;<span class="type">int</span>,<span class="type">int</span>,<span class="type">int</span>&gt; v = pq.<span class="built_in">top</span>();pq.<span class="built_in">pop</span>();</span><br><span class="line">            ans += <span class="built_in">get</span>&lt;<span class="number">0</span>&gt;(v);</span><br><span class="line">            k--;</span><br><span class="line"></span><br><span class="line">            <span class="type">int</span> l = <span class="built_in">get</span>&lt;<span class="number">1</span>&gt;(v), r = <span class="built_in">get</span>&lt;<span class="number">2</span>&gt;(v);</span><br><span class="line">            <span class="keyword">if</span>(l==r) <span class="keyword">continue</span>;</span><br><span class="line">            pii res = <span class="built_in">query</span>(<span class="number">0</span>,n<span class="number">-1</span>,<span class="number">1</span>,l,r<span class="number">-1</span>);</span><br><span class="line">            pq.<span class="built_in">push</span>(&#123;res.first-res.second, l, r<span class="number">-1</span>&#125;);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h1 id="Follow-Up"><a href="#Follow-Up" class="headerlink" title="Follow Up"></a>Follow Up</h1><p>k的限制改為 $k \leq \frac{n*(n+1)}{2}$</p>
+<h2 id="Solution-1"><a href="#Solution-1" class="headerlink" title="Solution"></a>Solution</h2><p>首先先將題目拆解，我們先找出第 $k$ 大的值是多少<br>這部分可以使用二分搜來找，假設我們要找的值為 $x$ ，我們要算出值 $\gt x$的數量</p>
+<p>再來是若將右端點固定時，假設為 $r$，左端點為 $1,2,3,…,r-1,r$時，數值是遞減的，概念跟前面一樣<br>接著我們可以使用單調隊列以及sliding window來維護當右端點為 $r$ 時，最左邊的點，使得這個點做為左端點時，這個區間的值 $\leq x$<br>這邊算第一個部分，時間複雜度為 $O(n\log U)$，$U$ 為陣列數值的值域</p>
+<p>假設第k大的值為 $lower$<br>接著我們考慮兩個情況:</p>
+<ol>
+<li>值 &gt; $lower$</li>
+<li>值 = $lower$</li>
+</ol>
+<p>我們只要算出值&gt;$lower$的部分，剩下的值=$lower$的部分可以直接用乘法相加</p>
+<p>則假設我們現在固定住右端點為 $r$，且值 $\leq lower$ 的最左點為 $l$ ，對於右端點 $r$，我們要算出 $[1,r] + [2,r] + … + [l-1,r]$ 這些區間的值<br>區間和的部分，我們可以使用支援區間更新的線段樹來維護，假設我們要維護極大值，當前右端點為 $r$ 時，當前這個右端點可以更新到前面哪個的位置，找到位置後就區間更新為當前這個右端點的值，極小值也是同樣道理<br>而前面提到的符合條件的最左點 $l$ ，我們可以透過二分搜來找，算出當前區間的最大即最小值</p>
+<p>最後我們將前述算法的$r$從$1$推到$n$，再算出總共加了幾次，再去加剩下的次數乘上lower，就完成了<br>整體的時間複雜度為 $O(n \log U + n \log n \log n)$</p>
+<h2 id="Submit-Code-1"><a href="#Submit-Code-1" class="headerlink" title="Submit Code"></a>Submit Code</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="type">long</span> <span class="type">long</span> b[<span class="number">2</span>][<span class="number">50001</span>&lt;&lt;<span class="number">2</span>] = &#123;&#125;, lz[<span class="number">2</span>][<span class="number">50001</span>&lt;&lt;<span class="number">2</span>];</span><br><span class="line">    <span class="type">long</span> <span class="type">long</span> bb[<span class="number">2</span>][<span class="number">50001</span>&lt;&lt;<span class="number">2</span>];</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">build</span><span class="params">(<span class="type">int</span> l,<span class="type">int</span> r,<span class="type">int</span> idx, vector&lt;<span class="type">int</span>&gt; &amp;nums)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(l==r)&#123;</span><br><span class="line">            bb[<span class="number">0</span>][idx] = bb[<span class="number">1</span>][idx] = nums[l];</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span> m = (l+r)&gt;&gt;<span class="number">1</span>;</span><br><span class="line">        <span class="built_in">build</span>(l,m,idx&lt;&lt;<span class="number">1</span>,nums);</span><br><span class="line">        <span class="built_in">build</span>(m+<span class="number">1</span>,r,idx&lt;&lt;<span class="number">1</span>|<span class="number">1</span>,nums);</span><br><span class="line">        bb[<span class="number">0</span>][idx] = <span class="built_in">max</span>(bb[<span class="number">0</span>][idx&lt;&lt;<span class="number">1</span>], bb[<span class="number">0</span>][idx&lt;&lt;<span class="number">1</span>|<span class="number">1</span>]);</span><br><span class="line">        bb[<span class="number">1</span>][idx] = <span class="built_in">min</span>(bb[<span class="number">1</span>][idx&lt;&lt;<span class="number">1</span>], bb[<span class="number">1</span>][idx&lt;&lt;<span class="number">1</span>|<span class="number">1</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">down</span><span class="params">(<span class="type">int</span> l,<span class="type">int</span> r,<span class="type">int</span> idx,<span class="type">int</span> type)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(lz[type][idx]!=<span class="number">-1</span>)&#123;</span><br><span class="line">            <span class="type">int</span> m = (l+r)&gt;&gt;<span class="number">1</span>;</span><br><span class="line">            b[type][idx&lt;&lt;<span class="number">1</span>] = (m-l+<span class="number">1ll</span>)*lz[type][idx];</span><br><span class="line">            b[type][idx&lt;&lt;<span class="number">1</span>|<span class="number">1</span>] = (r-m)*<span class="number">1ll</span>*lz[type][idx];</span><br><span class="line">            lz[type][idx&lt;&lt;<span class="number">1</span>] = lz[type][idx&lt;&lt;<span class="number">1</span>|<span class="number">1</span>] = lz[type][idx];</span><br><span class="line">            lz[type][idx] = <span class="number">-1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">update</span><span class="params">(<span class="type">int</span> l,<span class="type">int</span> r,<span class="type">int</span> idx,<span class="type">int</span> ql, <span class="type">int</span> qr, <span class="type">int</span> val, <span class="type">int</span> type)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(ql&lt;=l &amp;&amp; r&lt;=qr)&#123;</span><br><span class="line">            b[type][idx] = (r-l+<span class="number">1ll</span>)*val;</span><br><span class="line">            lz[type][idx] = val;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span> m = (l+r)&gt;&gt;<span class="number">1</span>;</span><br><span class="line">        <span class="built_in">down</span>(l, r, idx, type);</span><br><span class="line">        <span class="keyword">if</span>(ql&lt;=m) <span class="built_in">update</span>(l,m,idx&lt;&lt;<span class="number">1</span>,ql,qr,val,type);</span><br><span class="line">        <span class="keyword">if</span>(m&lt; qr) <span class="built_in">update</span>(m+<span class="number">1</span>,r,idx&lt;&lt;<span class="number">1</span>|<span class="number">1</span>,ql,qr,val,type);</span><br><span class="line">        b[type][idx] = b[type][idx&lt;&lt;<span class="number">1</span>] + b[type][idx&lt;&lt;<span class="number">1</span>|<span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">long</span> <span class="type">long</span> <span class="title">query</span><span class="params">(<span class="type">int</span> l,<span class="type">int</span> r,<span class="type">int</span> idx,<span class="type">int</span> ql, <span class="type">int</span> qr, <span class="type">int</span> type)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(ql&lt;=l &amp;&amp; r&lt;=qr) <span class="keyword">return</span> b[type][idx];</span><br><span class="line">        <span class="built_in">down</span>(l, r, idx, type);</span><br><span class="line">        <span class="type">int</span> m = (l+r)&gt;&gt;<span class="number">1</span>;</span><br><span class="line">        <span class="type">long</span> <span class="type">long</span> res = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span>(ql&lt;=m) res += <span class="built_in">query</span>(l, m, idx&lt;&lt;<span class="number">1</span>, ql, qr, type);</span><br><span class="line">        <span class="keyword">if</span>(m&lt; qr) res += <span class="built_in">query</span>(m+<span class="number">1</span>, r, idx&lt;&lt;<span class="number">1</span>|<span class="number">1</span>, ql, qr, type);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">#<span class="keyword">define</span> pii pair<span class="string">&lt;int,int&gt;</span></span></span><br><span class="line">    <span class="function">pii <span class="title">query2</span><span class="params">(<span class="type">int</span> l,<span class="type">int</span> r,<span class="type">int</span> idx,<span class="type">int</span> ql,<span class="type">int</span> qr)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(ql&lt;=l &amp;&amp; r&lt;=qr) <span class="keyword">return</span> &#123;bb[<span class="number">0</span>][idx], bb[<span class="number">1</span>][idx]&#125;;</span><br><span class="line">        <span class="type">int</span> m = (l+r)&gt;&gt;<span class="number">1</span>;</span><br><span class="line">        pii res = <span class="built_in">make_pair</span>(INT_MIN,INT_MAX);</span><br><span class="line">        <span class="keyword">if</span>(ql&lt;=m)&#123;</span><br><span class="line">            pii tmp = <span class="built_in">query2</span>(l,m,idx&lt;&lt;<span class="number">1</span>,ql,qr);</span><br><span class="line">            res.first = <span class="built_in">max</span>(res.first, tmp.first);</span><br><span class="line">            res.second = <span class="built_in">min</span>(res.second, tmp.second);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(m&lt; qr)&#123;</span><br><span class="line">            pii tmp = <span class="built_in">query2</span>(m+<span class="number">1</span>,r,idx&lt;&lt;<span class="number">1</span>|<span class="number">1</span>,ql,qr);</span><br><span class="line">            res.first = <span class="built_in">max</span>(res.first, tmp.first);</span><br><span class="line">            res.second = <span class="built_in">min</span>(res.second, tmp.second);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">long</span> <span class="type">long</span> <span class="title">maxTotalValue</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> k)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n = nums.<span class="built_in">size</span>();</span><br><span class="line">        <span class="built_in">build</span>(<span class="number">0</span>, n<span class="number">-1</span>, <span class="number">1</span>, nums);</span><br><span class="line">        <span class="type">int</span> l = <span class="number">0</span>, r = *<span class="built_in">max_element</span>(nums.<span class="built_in">begin</span>(), nums.<span class="built_in">end</span>()) - *<span class="built_in">min_element</span>(nums.<span class="built_in">begin</span>(), nums.<span class="built_in">end</span>());</span><br><span class="line">        <span class="keyword">while</span>(l&lt;r)&#123;</span><br><span class="line">            <span class="type">int</span> m = (l+r)&gt;&gt;<span class="number">1</span>;</span><br><span class="line">            <span class="type">long</span> <span class="type">long</span> cnt = <span class="number">0</span>;</span><br><span class="line">            deque&lt;<span class="type">int</span>&gt; mn, mx;</span><br><span class="line">            <span class="type">int</span> L = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">                <span class="keyword">while</span>(!mn.<span class="built_in">empty</span>() &amp;&amp; nums[mn.<span class="built_in">back</span>()]&gt;nums[i]) mn.<span class="built_in">pop_back</span>();</span><br><span class="line">                <span class="keyword">while</span>(!mx.<span class="built_in">empty</span>() &amp;&amp; nums[mx.<span class="built_in">back</span>()]&lt;nums[i]) mx.<span class="built_in">pop_back</span>();</span><br><span class="line">                mn.<span class="built_in">push_back</span>(i);</span><br><span class="line">                mx.<span class="built_in">push_back</span>(i);</span><br><span class="line">                <span class="keyword">while</span>(nums[mx.<span class="built_in">front</span>()]-nums[mn.<span class="built_in">front</span>()]&gt;m)&#123;</span><br><span class="line">                    <span class="keyword">if</span>(mx.<span class="built_in">front</span>()==L) mx.<span class="built_in">pop_front</span>();</span><br><span class="line">                    <span class="keyword">if</span>(mn.<span class="built_in">front</span>()==L) mn.<span class="built_in">pop_front</span>();</span><br><span class="line">                    L++;</span><br><span class="line">                &#125;</span><br><span class="line">                cnt += L;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(cnt&lt;=k<span class="number">-1</span>) r = m;</span><br><span class="line">            <span class="keyword">else</span> l = m+<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span> lower = l;</span><br><span class="line">        <span class="type">long</span> <span class="type">long</span> ans = <span class="number">0</span>, cnt = <span class="number">0</span>;</span><br><span class="line">        <span class="built_in">memset</span>(lz,<span class="number">-1</span>,<span class="keyword">sizeof</span> lz);</span><br><span class="line">        deque&lt;<span class="type">int</span>&gt; mn, mx;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">            <span class="keyword">while</span>(!mn.<span class="built_in">empty</span>() &amp;&amp; nums[mn.<span class="built_in">back</span>()]&gt;nums[i]) mn.<span class="built_in">pop_back</span>();</span><br><span class="line">            <span class="keyword">while</span>(!mx.<span class="built_in">empty</span>() &amp;&amp; nums[mx.<span class="built_in">back</span>()]&lt;nums[i]) mx.<span class="built_in">pop_back</span>();</span><br><span class="line">            <span class="built_in">update</span>(<span class="number">0</span>,n<span class="number">-1</span>,<span class="number">1</span>,mx.<span class="built_in">empty</span>()?<span class="number">0</span>:mx.<span class="built_in">back</span>()+<span class="number">1</span>,i,nums[i],<span class="number">0</span>);</span><br><span class="line">            <span class="built_in">update</span>(<span class="number">0</span>,n<span class="number">-1</span>,<span class="number">1</span>,mn.<span class="built_in">empty</span>()?<span class="number">0</span>:mn.<span class="built_in">back</span>()+<span class="number">1</span>,i,nums[i],<span class="number">1</span>);</span><br><span class="line">            mn.<span class="built_in">push_back</span>(i);</span><br><span class="line">            mx.<span class="built_in">push_back</span>(i);</span><br><span class="line"></span><br><span class="line">            l = <span class="number">0</span>, r = i;</span><br><span class="line">            <span class="keyword">while</span>(l&lt;r)&#123;</span><br><span class="line">                <span class="type">int</span> m = (l+r)&gt;&gt;<span class="number">1</span>;</span><br><span class="line">                pii tmp = <span class="built_in">query2</span>(<span class="number">0</span>,n<span class="number">-1</span>,<span class="number">1</span>,m,i);</span><br><span class="line">                <span class="keyword">if</span>(tmp.first-tmp.second&gt;lower) l = m+<span class="number">1</span>;</span><br><span class="line">                <span class="keyword">else</span> r = m;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(l)&#123;</span><br><span class="line">                cnt += l;</span><br><span class="line">                ans += <span class="built_in">query</span>(<span class="number">0</span>,n<span class="number">-1</span>,<span class="number">1</span>,<span class="number">0</span>,l<span class="number">-1</span>,<span class="number">0</span>)-<span class="built_in">query</span>(<span class="number">0</span>,n<span class="number">-1</span>,<span class="number">1</span>,<span class="number">0</span>,l<span class="number">-1</span>,<span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        ans += (k-cnt)*lower;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>這題關鍵的點在單調性的部分，就是固定左端點或右端點後會發現的性質，知道這個性質後第一個算法就能想到<br>不過第二個部分則是難度大幅提升@@，三四種知識點加在一起，需要對這些知識點都很熟練才有辦法想到和實作出來(我這部分完全看靈神的題解&gt;&lt;(link: <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=jOuCDXIPVbk">https://www.youtube.com/watch?v=jOuCDXIPVbk</a>))<br>這題因為k限制的關係，第一種算法就會通過，若沒有1e5的限制則第一種算法會超時<br>第二部分的code就很醜，看看就好XD</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/09/25/MaximumTotalSubarrayValueII/" data-id="cmfz2hy6l0000tfn94yr0c1a4" data-title="LeetCode3691 - Maximum Total Subarray Value II" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/binary-search/" rel="tag">binary search</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/dp/" rel="tag">dp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hard/" rel="tag">hard</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/heap/" rel="tag">heap</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/monotonic/" rel="tag">monotonic</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2024/08/13/MinimumNumberOfDaysToDisconnectIsland/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">LeetCode1568 - Minimum Number of Days to Disconnect Island</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/BFS/" rel="tag">BFS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DFS/" rel="tag">DFS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/array/" rel="tag">array</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/binary-search/" rel="tag">binary search</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bitwise/" rel="tag">bitwise</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/data-structure/" rel="tag">data structure</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/disjoint-set/" rel="tag">disjoint set</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dp/" rel="tag">dp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/easy/" rel="tag">easy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/graph/" rel="tag">graph</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/greedy/" rel="tag">greedy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hard/" rel="tag">hard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/heap/" rel="tag">heap</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/interview/" rel="tag">interview</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linked-list/" rel="tag">linked list</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/math/" rel="tag">math</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/medium/" rel="tag">medium</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/monotonic/" rel="tag">monotonic</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/monotonic-stack/" rel="tag">monotonic stack</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/powmod/" rel="tag">powmod</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/BFS/" style="font-size: 10px;">BFS</a> <a href="/tags/DFS/" style="font-size: 10px;">DFS</a> <a href="/tags/array/" style="font-size: 10px;">array</a> <a href="/tags/binary-search/" style="font-size: 12.5px;">binary search</a> <a href="/tags/bitwise/" style="font-size: 10px;">bitwise</a> <a href="/tags/data-structure/" style="font-size: 10px;">data structure</a> <a href="/tags/disjoint-set/" style="font-size: 10px;">disjoint set</a> <a href="/tags/dp/" style="font-size: 17.5px;">dp</a> <a href="/tags/easy/" style="font-size: 10px;">easy</a> <a href="/tags/graph/" style="font-size: 10px;">graph</a> <a href="/tags/greedy/" style="font-size: 12.5px;">greedy</a> <a href="/tags/hard/" style="font-size: 20px;">hard</a> <a href="/tags/heap/" style="font-size: 10px;">heap</a> <a href="/tags/interview/" style="font-size: 10px;">interview</a> <a href="/tags/linked-list/" style="font-size: 10px;">linked list</a> <a href="/tags/math/" style="font-size: 10px;">math</a> <a href="/tags/medium/" style="font-size: 15px;">medium</a> <a href="/tags/monotonic/" style="font-size: 15px;">monotonic</a> <a href="/tags/monotonic-stack/" style="font-size: 10px;">monotonic stack</a> <a href="/tags/powmod/" style="font-size: 10px;">powmod</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/09/">September 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">August 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/12/">December 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/10/">October 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/08/">August 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/07/">July 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2025/09/25/MaximumTotalSubarrayValueII/">LeetCode3691 - Maximum Total Subarray Value II</a>
+          </li>
+        
+          <li>
+            <a href="/2024/08/13/MinimumNumberOfDaysToDisconnectIsland/">LeetCode1568 - Minimum Number of Days to Disconnect Island</a>
+          </li>
+        
+          <li>
+            <a href="/2024/08/13/FindTheCountOfMonotonicPairs/">LeetCode3251 - Find The Count of Monotonic Pairs II</a>
+          </li>
+        
+          <li>
+            <a href="/2023/12/23/DesignAStackWithIncrementOperation/">LeetCode1381 - Design a Stack With Increment Operation</a>
+          </li>
+        
+          <li>
+            <a href="/2023/10/21/ConstrainedSubsequenceSum/">LeetCode1425 - Constrained Subsequence Sum</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2025 dapu81000<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</body>
+</html>
